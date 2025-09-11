@@ -6,9 +6,6 @@ function Footer() {
       <div className="container text-center">
         <ul className="nav justify-content-center mb-3">
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">Home</a>
-          </li>
-          <li className="nav-item">
             <a className="nav-link text-white" href="#">About</a>
           </li>
           <li className="nav-item">
