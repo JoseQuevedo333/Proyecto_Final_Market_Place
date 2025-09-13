@@ -40,3 +40,16 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Grid de resultados tipo Amazon */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;               /* separación entre tarjetas */
+  align-items: stretch;    /* que todas tengan la misma altura de fila */
+}
+
+/* Opcional: que la tarjeta ocupe alto completo en su celda */
+.results-grid .card {
+  height: 100%;
+}
