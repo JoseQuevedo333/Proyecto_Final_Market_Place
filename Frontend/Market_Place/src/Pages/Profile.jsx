@@ -1,13 +1,13 @@
 import React from "react";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
-import Footer from "../components/Footer"; 
-import Navbar from "../components/Navbar"; 
+import AppNavbar from "../components/Layout/AppNavbar";
+import AppFooter from "../components/Layout/AppFooter";
 
 function Profile() {
   return (
     <>
       {/* Navbar */}
-      <Navbar />
+      <AppNavbar />
 
       {/* Main Content */}
       <Container fluid className="py-5" style={{ backgroundColor: "#7ED957", minHeight: "80vh" }}>
@@ -33,13 +33,19 @@ function Profile() {
                   Ajustes de Usuario
                 </Button>
               </Card>
+
+              <Card className="p-3">
+                <Button variant="light" size="lg">
+                  Ingresar Producto
+                </Button>
+              </Card>
             </div>
           </Col>
         </Row>
       </Container>
 
       {/* Footer */}
-      <Footer />
+      <AppFooter />
     </>
   );
 }
