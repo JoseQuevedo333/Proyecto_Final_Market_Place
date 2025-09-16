@@ -3,9 +3,10 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Mantén solo light por consistencia con Bootstrap */
+  color-scheme: light;
+  color: #213547;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,21 +14,47 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Links heredan color del contenedor (navbar rojo con texto blanco, por ejemplo) */
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: inherit;
+  text-decoration: none;
 }
 a:hover {
-  color: #535bf2;
+  opacity: 0.85; /* efecto hover sin forzar color azul */
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  flex-direction: column;
+  overflow-x: hidden;   /* ✅ elimina franja blanca por overflow */
+  min-width: 0;
   min-height: 100vh;
+  background: rgb(62, 6, 118);      /* 👈 rojo a los lados */
+  color: #213547;
+}
+
+/* Contenedor principal de cada página */
+main {
+  flex: 1;
+  background: #ffffff;        /* 👈 fondo blanco para el contenido */
+  width: 100%;
+  max-width: 1400px;       /* 👈 ajusta a tu gusto (ej. 1200px, 1600px) */
+  margin: 0 auto;          /* 👈 centra el contenido */
+  padding: 1rem;           /* 👈 espacio interno */
 }
 
 h1 {
@@ -59,10 +86,11 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
   button {
     background-color: #f9f9f9;
   }
+}
+.bg-navbar-red {
+  background-color: red !important; /* mismo rojo del Navbar */
+  color: white !important;
 }

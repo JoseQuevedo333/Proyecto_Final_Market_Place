@@ -1,4 +1,4 @@
-// ScrollableRow.jsx
+// src/components/UI/ScrollableRow.jsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 /**
@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
  * - Muestra SOLO esa "página" de items (sin scroll horizontal)
  * - Flechas avanzan/retroceden de página
  * - Sin transform, sin overflow, sin barras horizontales
+ * - Soporta teclas ← → y focus accesible
  */
 export default function ScrollableRow({
   title = "International top sellers in Home",
@@ -16,9 +17,11 @@ export default function ScrollableRow({
     imageUrl:
       "https://m.media-amazon.com/images/I/81jdmPo8pAL._AC_UL480_FMwebp_QL65_.jpg",
   })),
-  itemWidth = 180,
+  itemWidth = 140,
   itemHeight = 150,
   gap = 16,
+  // Opcional: personalizar el color de las flechas (por defecto mismo rojo del navbar)
+  arrowColor = "red",
 }) {
   const hostRef = useRef(null);
   const [hostWidth, setHostWidth] = useState(0);
@@ -85,11 +88,16 @@ export default function ScrollableRow({
   return (
     <div
       ref={hostRef}
+      tabIndex={0} // permite foco para usar teclas
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft" && !atStart) go(-1);
+        if (e.key === "ArrowRight" && !atEnd) go(1);
+      }}
       style={{
         maxWidth: "100%",
-        // Blindaje para no afectar el layout externo
-        overflow: "hidden",
+        overflow: "hidden", // Blindaje para no afectar el layout externo
         isolation: "isolate",
+        outline: "none",
       }}
     >
       <div
@@ -104,17 +112,18 @@ export default function ScrollableRow({
         <div className="card-body" style={{ paddingBottom: 12 }}>
           <h5 style={{ fontWeight: 700, marginBottom: 12 }}>{title}</h5>
 
-          {/* PISTA: renderiza solo los items de la página actual */}
+          {/* Renderiza solo los items de la página actual */}
           <div
             style={{
               display: "flex",
               flexDirection: "row",
               gap,
               padding: "4px 8px",
-              // Sin scroll, sin transform, altura fija visible
-              overflow: "hidden",
+              overflow: "hidden", // sin scroll, sin transform
               minHeight: itemHeight + 20,
               boxSizing: "border-box",
+              justifyContent: "center",
+              alignItems: "center",              
             }}
           >
             {pageItems.map((it) => (
@@ -129,7 +138,7 @@ export default function ScrollableRow({
                   alignItems: "center",
                   justifyContent: "center",
                   background: "#f3f3f3",
-                  borderRadius: 8,
+                  borderRadius: 54,
                   border: "1px solid #eee",
                   overflow: "hidden",
                 }}
@@ -140,7 +149,7 @@ export default function ScrollableRow({
                   loading="lazy"
                   style={{
                     maxWidth: "100%",
-                    maxHeight: "100%",
+                    maxHeight: "90%",
                     objectFit: "contain",
                     display: "block",
                   }}
@@ -148,7 +157,7 @@ export default function ScrollableRow({
               </div>
             ))}
 
-            {/* Rellena con placeholders invisibles para que la fila quede estable */}
+            {/* Relleno invisible para que la fila quede estable */}
             {pageItems.length < visibleCount &&
               Array.from({ length: visibleCount - pageItems.length }).map(
                 (_, i) => (
@@ -167,26 +176,22 @@ export default function ScrollableRow({
         </div>
 
         {/* Flechas (no empujan layout) */}
-        <button
-          type="button"
-          onClick={() => go(-1)}
+        <ArrowButton
+          side="left"
           disabled={atStart}
-          aria-label="Anterior"
-          style={arrow("left", atStart)}
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          onClick={() => go(1)}
+          onClick={() => go(-1)}
+          ariaLabel="Anterior"
+          color={arrowColor}
+        />
+        <ArrowButton
+          side="right"
           disabled={atEnd}
-          aria-label="Siguiente"
-          style={arrow("right", atEnd)}
-        >
-          ›
-        </button>
+          onClick={() => go(1)}
+          ariaLabel="Siguiente"
+          color={arrowColor}
+        />
 
-        {/* Indicadores simples de página (opcional) */}
+        {/* Indicadores de página */}
         <div
           style={{
             position: "absolute",
@@ -200,6 +205,7 @@ export default function ScrollableRow({
           {Array.from({ length: totalPages }).map((_, i) => (
             <span
               key={i}
+              aria-hidden="true"
               style={{
                 width: 6,
                 height: 6,
@@ -215,24 +221,86 @@ export default function ScrollableRow({
   );
 }
 
-function arrow(side, disabled) {
+/* ---------- Flechas ---------- */
+
+function ArrowButton({ side = "left", disabled, onClick, ariaLabel, color = "red" }) {
+  const isLeft = side === "left";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      style={arrowStyle(side, disabled, color)}
+      onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.05)")}
+      onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
+    >
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        style={{ transform: isLeft ? "none" : "scaleX(-1)" }}
+      >
+        <path
+          d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          fill="currentColor"
+        />
+      </svg>
+    </button>
+  );
+}
+
+const ARROW_SIZE = 80; // diámetro del botón (px)
+const ARROW_FG = "#fff";
+
+function arrowStyle(side, disabled, color) {
   return {
     position: "absolute",
-    [side]: 8,
-    top: "50%",
+    [side]: 10,
+    top: "55%",
     transform: "translateY(-50%)",
     zIndex: 5,
-    border: "none",
-    width: 36,
-    height: 36,
+    width: ARROW_SIZE,
+    height: ARROW_SIZE,
     borderRadius: "50%",
-    background: disabled ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.7)",
-    color: "#fff",
+    border: "none",
+    background: disabled ? rgba(color, 0.35) : color,
+    color: ARROW_FG,
     cursor: disabled ? "default" : "pointer",
     display: "grid",
     placeItems: "center",
-    lineHeight: 1,
-    fontSize: 22,
-    boxShadow: "0 2px 8px rgba(0,0,0,.25)",
+    boxShadow: disabled
+      ? "0 2px 6px rgba(0,0,0,.15)"
+      : "0 4px 14px rgba(0,0,0,.25)",
+    transition: "filter .15s ease, transform .15s ease",
+  };
+}
+
+/* Util para generar rgba desde hex o palabra clave */
+function rgba(baseColor, alpha) {
+  // Soporta "red" o hex #rrggbb / #rgb
+  if (baseColor === "red") return `rgba(255,0,0,${alpha})`;
+  if (baseColor.startsWith("#")) {
+    const c = hexToRgb(baseColor);
+    if (!c) return baseColor;
+    const { r, g, b } = c;
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  // fallback: color tal cual
+  return baseColor;
+}
+
+function hexToRgb(hex) {
+  let h = hex.replace("#", "");
+  if (h.length === 3) {
+    h = h.split("").map((x) => x + x).join("");
+  }
+  if (h.length !== 6) return null;
+  const num = parseInt(h, 16);
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255,
   };
 }
