@@ -6,6 +6,9 @@ import ProductDetails from "./Pages/ProductDetails";
 import NotFound from "./Pages/Notfound";
 import ComponentesFidel from "./Pages/ComponentesFidel";
 import ResultsFound from "./Pages/ResultsFound";
+import Profile from "./Pages/Profile";
+import Cart from "./components/Layout/Cart";
+
 
 function App() {
   return (
@@ -17,6 +20,8 @@ function App() {
       <Route path="/notfound" element={<NotFound />} />
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
       <Route path="/categoria/cables" element={<ResultsFound />} />
+      <Route path="/profile" element={<Profile />} />
+       <Route path="/Cart" element={<Cart />} />
     </Routes>
   );
 }
