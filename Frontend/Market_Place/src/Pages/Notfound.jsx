@@ -1,21 +1,32 @@
 import React from "react";
-import { Container, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import AppNavbar from "../components/Layout/AppNavbar";
+import AppFooter from "../components/Layout/AppFooter";
+import "../css/NotFound.css";
 
 const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <Container className="d-flex flex-column align-items-center justify-content-center vh-100 text-center">
-      <h1 className="display-1 fw-bold text-danger">404</h1>
-      <h2 className="mb-3">Página no encontrada</h2>
-      <p className="text-muted mb-4">
-        La página que buscas no existe o fue movida.
-      </p>
-      <Button variant="primary" onClick={() => navigate("/")}>
-        Volver al inicio
-      </Button>
-    </Container>
+    <>
+      <div className="navbar-fixed">
+        <AppNavbar />
+      </div>
+
+      <div className="notfound-page">
+        <h1>404</h1>
+        <h2>Página no encontrada</h2>
+        <p>La página que buscas no existe o fue movida.</p>
+        <Button className="btn-superzoo" onClick={() => navigate("/")}>
+          ⬅ Volver al inicio
+        </Button>
+      </div>
+
+      <div className="footer-fixed">
+        <AppFooter />
+      </div>
+    </>
   );
 };
 

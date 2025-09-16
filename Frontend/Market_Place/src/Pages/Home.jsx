@@ -11,7 +11,10 @@ export default function Home() {
         <Link to="/register">Ir a Registro</Link> |{" "}
         <Link to="/notfound">Ir a No encontrado</Link> |{" "}
         <Link to="/product/1">Ver producto 1</Link> |{" "}
-        <Link to="/componentesfidel">Ver componentes fidel</Link>
+        <Link to="/componentesfidel">Ver componentes fidel</Link>|
+        <Link to="/cart">Ir al carrito</Link> |{" "}
+        <Link to="/admin_products">Ir a Admin Products</Link>|{" "}
+        <Link to="/productdetails">Ir a Product Details</Link>|{" "}
       </nav>
     </section>
   );
