@@ -1,19 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
-import Footer from "../components/Footer"; 
-import Navbar from "../components/Navbar"; 
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
+import { Link, useNavigate } from "react-router-dom";
+
 
 function Profile() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("loggedInUser");
+    if (loggedIn) {
+      setUser(JSON.parse(loggedIn));
+    } else {
+      // if no user is logged in, redirect to login
+      navigate("/login");
+    }
+  }, [navigate]);
+
+   const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    navigate("/login");
+  };
+
   return (
     <>
       {/* Navbar */}
       <Navbar />
 
       {/* Main Content */}
-      <Container fluid className="py-5" style={{ backgroundColor: "#7ED957", minHeight: "80vh" }}>
+      <Container
+        fluid
+        className="py-5"
+        style={{ backgroundColor: "#7ED957", minHeight: "80vh" }}
+      >
         <Row className="justify-content-center">
           <Col md={8} className="text-center">
-            <h2 className="mb-5">Bienvenido, Usuario!</h2>
+            <h2 className="mb-5">
+              Bienvenido, {user ? user.email : "Usuario"}!
+            </h2>
 
             <div className="d-grid gap-4">
               <Card className="p-3">
@@ -23,8 +49,14 @@ function Profile() {
               </Card>
 
               <Card className="p-3">
-                <Button variant="light" size="lg">
+                <Button  as={Link} 
+                to="/Cart"
+                variant="light"
+                size="lg"
+                className="text-light">
+                   
                   Carrito
+                  
                 </Button>
               </Card>
 
@@ -33,6 +65,19 @@ function Profile() {
                   Ajustes de Usuario
                 </Button>
               </Card>
+
+              <Card className="p-3">
+                <Button variant="light" size="lg">
+                  Ingresar Producto
+                </Button>
+              </Card>
+
+               <Card className="p-3">
+                <Button  className="btn btn-lg custom-red" onClick={handleLogout}>
+                  Cerrar Sesión
+                </Button>
+              </Card>
+
             </div>
           </Col>
         </Row>

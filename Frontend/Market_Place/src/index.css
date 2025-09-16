@@ -94,3 +94,15 @@ button:focus-visible {
   background-color: red !important; /* mismo rojo del Navbar */
   color: white !important;
 }
+
+
+.custom-red {
+  background-color: red; /* example darker red */
+  border-color: red;
+}
+
+
+.custom-red:hover {
+  background-color: #f70000;
+  border-color: #8b1a1a;
+}
