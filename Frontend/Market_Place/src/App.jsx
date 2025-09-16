@@ -3,13 +3,9 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ProductDetails from "./Pages/ProductDetails";
-import NotFound from "./Pages/Notfound";
-import ComponentesFidel from "./Pages/ComponentesFidel";
-/* import { CartProvider } from "./context/CartContext"; */
-
-// Imports adicionales
 import Cart_Page from "./Pages/Cart_Page";
 import AdminProducts from "./Pages/Admin_Products";
+import ComponentesFidel from "./Pages/ComponentesFidel";
 
 function App() {
   return (
@@ -22,8 +18,6 @@ function App() {
       <Route path="/admin_products" element={<AdminProducts />} />
       <Route path="/productdetails" element={<ProductDetails />} />
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
-
-      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

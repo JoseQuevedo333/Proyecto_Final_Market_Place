@@ -1,14 +1,14 @@
 import React from "react";
 import Cart from "../components/Layout/Cart";
-import AppNavbar from "../components/Layout/AppNavbar";
-import AppFooter from "../components/Layout/AppFooter";
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
 
 function CartPage() {
   return (
     <>
-      <AppNavbar />
+      <Navbar />
       <Cart />
-      <AppFooter />
+      <Footer />
     </>
   );
 }

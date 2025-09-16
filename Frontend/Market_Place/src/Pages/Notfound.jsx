@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import AppNavbar from "../components/Layout/AppNavbar";
-import AppFooter from "../components/Layout/AppFooter";
+import Navbar from "../components/Layout/Navbar";
+import Footer from "../components/Layout/Footer";
 import "../css/NotFound.css";
 
 const NotFound = () => {
@@ -11,7 +11,7 @@ const NotFound = () => {
   return (
     <>
       <div className="navbar-fixed">
-        <AppNavbar />
+        <Navbar />
       </div>
 
       <div className="notfound-page">
@@ -24,7 +24,7 @@ const NotFound = () => {
       </div>
 
       <div className="footer-fixed">
-        <AppFooter />
+        <Footer />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form, Table } from "react-bootstrap";
 
-function AdminProductos() {
+function AdminProducts() {
   const [productos, setProductos] = useState([]); // lista vacía al inicio
   const [showModal, setShowModal] = useState(false);
   const [nuevoProducto, setNuevoProducto] = useState({
@@ -22,7 +22,13 @@ function AdminProductos() {
   const handleAgregar = () => {
     const nuevo = { ...nuevoProducto, id: productos.length + 1 };
     setProductos([...productos, nuevo]);
-    setNuevoProducto({ nombre: "", descripcion: "", precio: "", imagen: "", categoria: "" });
+    setNuevoProducto({
+      nombre: "",
+      descripcion: "",
+      precio: "",
+      imagen: "",
+      categoria: "",
+    });
     handleClose();
   };
 
@@ -31,11 +37,19 @@ function AdminProductos() {
   };
 
   return (
-    <div className="container py-5" style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}>
+    <div
+      className="container py-5"
+      style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}
+    >
       {/* Header */}
-      <div className="p-3 mb-4" style={{ backgroundColor: "#222", color: "white", borderRadius: "6px" }}>
+      <div
+        className="p-3 mb-4"
+        style={{ backgroundColor: "#222", color: "white", borderRadius: "6px" }}
+      >
         <h2>🖥️ Administrar Productos - Tienda de Tecnología</h2>
-        <p style={{ color: "#FFD700" }}>Agrega, edita o elimina productos fácilmente</p>
+        <p style={{ color: "#FFD700" }}>
+          Agrega, edita o elimina productos fácilmente
+        </p>
       </div>
 
       {/* Botón Agregar */}
@@ -48,7 +62,11 @@ function AdminProductos() {
       </Button>
 
       {/* Tabla de productos */}
-      <Table hover responsive style={{ backgroundColor: "#fff", borderRadius: "6px" }}>
+      <Table
+        hover
+        responsive
+        style={{ backgroundColor: "#fff", borderRadius: "6px" }}
+      >
         <thead style={{ backgroundColor: "#222", color: "#fff" }}>
           <tr>
             <th>Imagen</th>
@@ -73,13 +91,20 @@ function AdminProductos() {
                   <img
                     src={producto.imagen}
                     alt={producto.nombre}
-                    style={{ width: "80px", height: "80px", objectFit: "cover", borderRadius: "4px" }}
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                      borderRadius: "4px",
+                    }}
                   />
                 </td>
                 <td>{producto.nombre}</td>
                 <td>{producto.descripcion}</td>
                 <td>{producto.categoria}</td>
-                <td style={{ color: "#E30613", fontWeight: "bold" }}>{producto.precio.toFixed(2)}</td>
+                <td style={{ color: "#E30613", fontWeight: "bold" }}>
+                  {producto.precio.toFixed(2)}
+                </td>
                 <td>
                   <Button variant="warning" size="sm" className="me-2">
                     Editar
@@ -100,30 +125,58 @@ function AdminProductos() {
 
       {/* Modal para agregar producto */}
       <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton style={{ backgroundColor: "#222", color: "#fff" }}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#222", color: "#fff" }}
+        >
           <Modal.Title>Agregar Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: "#f8f9fa" }}>
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
-              <Form.Control type="text" name="nombre" value={nuevoProducto.nombre} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="nombre"
+                value={nuevoProducto.nombre}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Descripción</Form.Label>
-              <Form.Control type="text" name="descripcion" value={nuevoProducto.descripcion} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="descripcion"
+                value={nuevoProducto.descripcion}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Categoría</Form.Label>
-              <Form.Control type="text" name="categoria" value={nuevoProducto.categoria} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="categoria"
+                value={nuevoProducto.categoria}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Precio ($)</Form.Label>
-              <Form.Control type="number" name="precio" value={nuevoProducto.precio} onChange={handleChange} />
+              <Form.Control
+                type="number"
+                name="precio"
+                value={nuevoProducto.precio}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>URL Imagen</Form.Label>
-              <Form.Control type="text" name="imagen" value={nuevoProducto.imagen} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="imagen"
+                value={nuevoProducto.imagen}
+                onChange={handleChange}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -131,7 +184,10 @@ function AdminProductos() {
           <Button variant="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button style={{ backgroundColor: "#E30613", border: "none" }} onClick={handleAgregar}>
+          <Button
+            style={{ backgroundColor: "#E30613", border: "none" }}
+            onClick={handleAgregar}
+          >
             Agregar Producto
           </Button>
         </Modal.Footer>
@@ -140,4 +196,4 @@ function AdminProductos() {
   );
 }
 
-export default AdminProductos;
+export default AdminProducts;

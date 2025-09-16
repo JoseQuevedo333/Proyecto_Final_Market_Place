@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
  * FIX: <img> simple como en SearchResultCard, sin onError ni referrerPolicy.
  */
 export default function InfoOfferCard({
-  title = "FREE Shipping to Chile",
+  title = "Categoría",
   // MISMA URL que ya te funciona en SearchResultCard
   imageUrl = "https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/1460058_2528408_us_gw_pc_single_category_card_1x_379x304_us-en._SY304_CB794776999_.jpg",
-  linkText = "Learn more",
+  linkText = "Ver detalle.",
   linkTo = "/ofertas/envio",
   linkType = "internal", // "internal" | "external"
 }) {
