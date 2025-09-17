@@ -67,8 +67,8 @@ function Profile() {
               </Card>
 
               <Card className="p-3">
-                <Button variant="light" size="lg">
-                  Ingresar Producto
+                <Button  as={Link} to="/add-product" variant="light" size="lg">
+                Agregar producto 
                 </Button>
               </Card>
 

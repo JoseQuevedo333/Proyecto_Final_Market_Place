@@ -8,6 +8,7 @@ import AdminProducts from "./Pages/Admin_Products";
 import ComponentesFidel from "./Pages/ComponentesFidel";
 import ResultsFound from "./Pages/ResultsFound";
 import Profile from "./Pages/Profile";
+import AddProductForm from "./components/Forms/AddProductForm";
 
 
 
@@ -24,6 +25,9 @@ function App() {
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
       <Route path="/categoria/cables" element={<ResultsFound />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/add-product" element={<AddProductForm onSubmit={(data) => {
+    console.log("Producto guardado:", data); // Aquí se podria manejar el envío del formulario, como enviarlo a una API
+}} />} />
     </Routes>
   );
 }
