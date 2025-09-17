@@ -53,7 +53,7 @@ function Profile() {
                 to="/Cart"
                 variant="light"
                 size="lg"
-                className="text-light">
+                className="text-dark">
                    
                   Carrito
                   
