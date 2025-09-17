@@ -6,6 +6,10 @@ import ProductDetails from "./Pages/ProductDetails";
 import Cart_Page from "./Pages/Cart_Page";
 import AdminProducts from "./Pages/Admin_Products";
 import ComponentesFidel from "./Pages/ComponentesFidel";
+import ResultsFound from "./Pages/ResultsFound";
+import Profile from "./Pages/Profile";
+import Cart from "./components/Layout/Cart";
+
 
 function App() {
   return (
@@ -18,6 +22,9 @@ function App() {
       <Route path="/admin_products" element={<AdminProducts />} />
       <Route path="/productdetails" element={<ProductDetails />} />
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
+      <Route path="/categoria/cables" element={<ResultsFound />} />
+      <Route path="/profile" element={<Profile />} />
+       <Route path="/Cart" element={<Cart />} />
     </Routes>
   );
 }
