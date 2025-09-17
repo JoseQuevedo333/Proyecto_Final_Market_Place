@@ -8,7 +8,7 @@ import AdminProducts from "./Pages/Admin_Products";
 import ComponentesFidel from "./Pages/ComponentesFidel";
 import ResultsFound from "./Pages/ResultsFound";
 import Profile from "./Pages/Profile";
-import Cart from "./components/Layout/Cart";
+
 
 
 function App() {
@@ -24,7 +24,6 @@ function App() {
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
       <Route path="/categoria/cables" element={<ResultsFound />} />
       <Route path="/profile" element={<Profile />} />
-       <Route path="/Cart" element={<Cart />} />
     </Routes>
   );
 }
