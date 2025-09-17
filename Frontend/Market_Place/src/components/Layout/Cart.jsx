@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../../css/TechCart.css";
 
 export default function Cart() {
-  // Sample tech products
   const products = [
     {
       id: 1,
@@ -72,13 +71,13 @@ export default function Cart() {
   };
 
   return (
-    <div className="tech-cart-container">
+    <main className="tech-cart-container d-flex flex-column min-vh-100">
       <h1 className="tech-cart-title">💻 SuperTech Store</h1>
 
       {/* Product Cards */}
-      <div className="tech-product-list row mb-4">
+      <div className="tech-product-list row mb-4 flex-grow-1">
         {products.map((product) => (
-          <div key={product.id} className="col-md-4 mb-3">
+          <div key={product.id} className="col-12 col-md-6 mb-3">
             <div className="card tech-product-card h-100">
               <img
                 src={product.img}
@@ -104,7 +103,7 @@ export default function Cart() {
 
       {/* Cart Offcanvas Button */}
       <button
-        className="btn btn-tech-cart mb-3"
+        className="btn btn-tech-cart mb-4 align-self-center"
         type="button"
         data-bs-toggle="offcanvas"
         data-bs-target="#techCartOffcanvas"
@@ -188,6 +187,6 @@ export default function Cart() {
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

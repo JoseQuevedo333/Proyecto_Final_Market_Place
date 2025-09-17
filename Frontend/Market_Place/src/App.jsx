@@ -9,7 +9,7 @@ import ComponentesFidel from "./Pages/ComponentesFidel";
 import ResultsFound from "./Pages/ResultsFound";
 import Profile from "./Pages/Profile";
 import Cart from "./components/Layout/Cart";
-
+import NotFound from "./Pages/Notfound";
 
 function App() {
   return (
@@ -24,7 +24,8 @@ function App() {
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
       <Route path="/categoria/cables" element={<ResultsFound />} />
       <Route path="/profile" element={<Profile />} />
-       <Route path="/Cart" element={<Cart />} />
+      <Route path="/Cart" element={<Cart />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

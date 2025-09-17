@@ -1,9 +1,14 @@
 /* Full viewport height */
 .tech-cart-container {
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 100vh; /* toda la altura de la pantalla */
+  min-width: 100vw; /* toda la anchura de la pantalla */
   display: flex;
   flex-direction: column;
+  justify-content: flex-start; /* o center si quieres centrar todo */
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #fff; /* opcional: color de fondo */
 }
 
 .tech-cart-title {
@@ -39,6 +44,9 @@
   background-color: #e30613;
   color: white;
   border: none;
+  font-size: 1.1rem; /* botón más grande */
+  padding: 10px 20px; /* más espacio clickeable */
+  border-radius: 8px;
 }
 .btn-tech-add:hover {
   background-color: #b3050f;
@@ -63,6 +71,9 @@
   background-color: #e30613;
   color: white;
   border: none;
+  font-size: 1.4rem; /* texto más grande */
+  padding: 15px 30px; /* botón más ancho y alto */
+  border-radius: 10px;
 }
 .btn-tech-cart:hover {
   background-color: #b3050f;
@@ -71,6 +82,9 @@
   background-color: #e30613;
   color: white;
   border: none;
+  font-size: 1.3rem;
+  padding: 12px 25px;
+  border-radius: 8px;
 }
 .btn-tech-checkout:hover {
   background-color: #b3050f;

@@ -40,21 +40,21 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;   /* ✅ elimina franja blanca por overflow */
+  overflow-x: hidden; /* ✅ elimina franja blanca por overflow */
   min-width: 0;
   min-height: 100vh;
-  background: rgb(62, 6, 118);      /* 👈 rojo a los lados */
+  background: red; /* 👈 rojo a los lados */
   color: #213547;
 }
 
 /* Contenedor principal de cada página */
 main {
   flex: 1;
-  background: #ffffff;        /* 👈 fondo blanco para el contenido */
+  background: #ffffff; /* 👈 fondo blanco para el contenido */
   width: 100%;
-  max-width: 1400px;       /* 👈 ajusta a tu gusto (ej. 1200px, 1600px) */
-  margin: 0 auto;          /* 👈 centra el contenido */
-  padding: 1rem;           /* 👈 espacio interno */
+  max-width: 1400px; /* 👈 ajusta a tu gusto (ej. 1200px, 1600px) */
+  margin: 0 auto; /* 👈 centra el contenido */
+  padding: 1rem; /* 👈 espacio interno */
 }
 
 h1 {
@@ -95,12 +95,10 @@ button:focus-visible {
   color: white !important;
 }
 
-
 .custom-red {
   background-color: red; /* example darker red */
   border-color: red;
 }
-
 
 .custom-red:hover {
   background-color: #f70000;

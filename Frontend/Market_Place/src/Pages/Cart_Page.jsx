@@ -5,11 +5,13 @@ import Footer from "../components/Layout/Footer";
 
 function CartPage() {
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <Cart />
-      <Footer />
-    </>
+      <div className="flex-grow-1">
+        <Cart />
+      </div>
+      <Footer className="mt-auto" />
+    </div>
   );
 }
 
