@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import ThemeToggleButton from "../UI/ThemeToggleButton"; // 👈 importar botón de tema
 
 export default function Navbar() {
   return (
     <nav
       className="navbar navbar-expand-lg"
       style={{
-        backgroundColor: "red",   // 👈 fondo rojo
-        paddingTop: "1rem",       // 👈 más alto
+        backgroundColor: "red",
+        paddingTop: "1rem",
         paddingBottom: "1rem",
       }}
     >
@@ -16,7 +17,7 @@ export default function Navbar() {
         <Link
           className="navbar-brand fw-bold"
           to="/"
-          style={{ fontSize: "1.5rem", color: "white" }} // 👈 letras blancas
+          style={{ fontSize: "1.5rem", color: "white" }}
         >
           Avalon Marketplace
         </Link>
@@ -65,22 +66,14 @@ export default function Navbar() {
                 Registrar
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link fw-bold"
-                to="/profile"
-                style={{ fontSize: "1.1rem", color: "white" }}
-              >
-                Perfil
-              </Link>
-            </li>
           </ul>
 
-          {/* Derecha: Carrito */}
-          <div className="d-flex">
+          {/* Derecha: Carrito + Botón tema */}
+          <div className="d-flex align-items-center">
             <Link to="/cart" className="btn btn-light">
               <FaShoppingCart size={22} />
             </Link>
+            <ThemeToggleButton /> {/* 👈 aquí el botón de tema */}
           </div>
         </div>
       </div>

@@ -1,66 +1,69 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  /* Mantén solo light por consistencia con Bootstrap */
-  color-scheme: light;
-  color: #213547;
-  background-color: #ffffff;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Links heredan color del contenedor (navbar rojo con texto blanco, por ejemplo) */
-a {
-  font-weight: 500;
-  color: inherit;
-  text-decoration: none;
-}
-a:hover {
-  opacity: 0.85; /* efecto hover sin forzar color azul */
-}
-
-html,
-body,
-#root {
-  height: 100%;
-}
-
+/* =========================
+   Base & Reset
+========================= */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+html, body, #root {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;   /* ✅ elimina franja blanca por overflow */
+  overflow-x: hidden;
   min-width: 0;
-  min-height: 100vh;
-  background: rgb(62, 6, 118);      /* 👈 rojo a los lados */
-  color: #213547;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Se setean vía variables del tema */
+  background:#c20202; 
+  color: var(--text);
 }
 
-/* Contenedor principal de cada página */
+/* El wrapper que pone ThemeProvider: <div className={theme}> */
+#root > .light,
+#root > .dark {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Links heredan color del tema */
+a {
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+}
+a:hover { opacity: 0.85; }
+
+/* Contenido principal (usa variables del tema) */
 main {
   flex: 1;
-  background: #ffffff;        /* 👈 fondo blanco para el contenido */
+  background: var(--main-bg);
   width: 100%;
-  max-width: 1400px;       /* 👈 ajusta a tu gusto (ej. 1200px, 1600px) */
-  margin: 0 auto;          /* 👈 centra el contenido */
-  padding: 1rem;           /* 👈 espacio interno */
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Página a pantalla completa (útil para Login) */
+.fullscreen-page {
+  min-height: calc(100vh - 0px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* Tipografía y botones base */
+h1 { font-size: 3.2em; line-height: 1.1; }
 
 button {
   border-radius: 8px;
@@ -69,40 +72,170 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--btn-bg);
+  color: var(--text);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, background-color 0.2s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button:hover { background-color: var(--btn-bg-hover); border-color: #646cff; }
+button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
+
+/* Utilidades existentes */
+.bg-navbar-red { background-color: red !important; color: white !important; }
+.custom-red { background-color: red; border-color: red; color: #fff; }
+.custom-red:hover { background-color: #f70000; border-color: #8b1a1a; }
+
+/* =========================
+   Variables por Tema
+========================= */
+/* Tema claro */
+.light {
+  /* Lateral (mantengo tu color existente) */
+  --outer-bg: #c20202;
+
+  --text: #213547;
+  --main-bg: #ffffff;
+
+  /* Superficies en claro */
+  --surface-1: #ffffff;  /* p.ej. cards */
+  --surface-2: #f7f7f8;  /* superficies secundarias */
+  --surface-3: #ededf0;
+
+  --border: #e5e7eb;
+  --muted: #6b7280;
+
+  /* Links estilo Bootstrap */
+  --link: #0d6efd;
+  --link-hover: #0a58ca;
+
+  /* Inputs */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+
+  /* Botones base */
+  --btn-bg: #f0f0f0;
+  --btn-bg-hover: #e4e4e4;
+
+  /* Sombras */
+  --shadow: rgba(0, 0, 0, 0.08);
+
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Tema oscuro (escala de grises solicitada) */
+.dark {
+  --outer-bg: #0e0e14;   /* lateral / fondo general en oscuro */
+  --text: #e6e6e6;
+  --main-bg: #151515;    /* fondo del contenido */
+
+  /* Superficies en grises */
+  --surface-1: #1a1a1a;  /* cards principales */
+  --surface-2: #222222;  /* inputs, menús, btn-light */
+  --surface-3: #2b2b2b;  /* hover/énfasis */
+
+  --border: #2f333a;
+  --muted: #9aa0a6;
+
+  /* Links sobrios en oscuro */
+  --link: #8ab4f8;
+  --link-hover: #a6c8ff;
+
+  /* Inputs */
+  --input-bg: #222222;
+  --input-border: #2f333a;
+
+  /* Botones base */
+  --btn-bg: #2a2a2a;
+  --btn-bg-hover: #3a3a3a;
+
+  --shadow: rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
 }
-.bg-navbar-red {
-  background-color: red !important; /* mismo rojo del Navbar */
-  color: white !important;
+
+/* =========================
+   Helpers de superficie
+========================= */
+.theme-surface-1 { background: var(--surface-1) !important; color: var(--text) !important; }
+.theme-surface-2 { background: var(--surface-2) !important; color: var(--text) !important; }
+.theme-surface-3 { background: var(--surface-3) !important; color: var(--text) !important; }
+
+/* Links que respetan el tema */
+a, .text-primary { color: var(--link) !important; }
+a:hover, .text-primary:hover { color: var(--link-hover) !important; }
+
+/* =========================
+   Overrides Bootstrap comunes
+   (dejan de ser blancos en dark gracias a las variables)
+========================= */
+/* Contenedores */
+.card,
+.list-group-item,
+.dropdown-menu,
+.modal-content,
+.offcanvas,
+.toast,
+.popover,
+.tooltip-inner {
+  background-color: var(--surface-1) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 6px 16px var(--shadow);
 }
 
-
-.custom-red {
-  background-color: red; /* example darker red */
-  border-color: red;
+/* Bordes */
+hr,
+.card,
+.list-group-item,
+.dropdown-menu,
+.modal-content,
+.offcanvas,
+.table,
+.table > :not(caption) > * > * {
+  border-color: var(--border) !important;
 }
 
+/* Formularios */
+.form-control,
+.form-select,
+.input-group-text,
+.form-check-input {
+  background-color: var(--input-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--input-border) !important;
+}
+.form-control::placeholder { color: var(--muted) !important; }
 
-.custom-red:hover {
-  background-color: #f70000;
-  border-color: #8b1a1a;
+/* Tablas */
+.table > :not(caption) > * > * {
+  background-color: var(--surface-1);
+  color: var(--text);
+}
+
+/* Botón “light” (suele ser blanco) */
+.btn-light {
+  background-color: var(--surface-2) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+.btn-light:hover { background-color: var(--surface-3) !important; }
+
+/* Badge/labels “light” */
+.badge.bg-light,
+.alert-light {
+  background-color: var(--surface-2) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+/* Dropdown y nav activos */
+.navbar .dropdown-menu { background-color: var(--surface-1) !important; }
+.nav-link.active,
+.nav-pills .nav-link.active {
+  background-color: var(--surface-2) !important;
+  color: var(--text) !important;
+}
+
+.text-theme {
+  color: var(--text) !important;
 }

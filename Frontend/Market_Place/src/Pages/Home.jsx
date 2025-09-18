@@ -12,6 +12,12 @@ export default function Home() {
     imageUrl: `https://picsum.photos/seed/item${i}/200/150`,
   }));
 
+  const slides = [
+    { src: "https://picsum.photos/1200/400?random=1", alt: "Uno" },
+    { src: "https://picsum.photos/1200/400?random=2", alt: "Dos" },
+    { src: "https://picsum.photos/1200/400?random=3", alt: "Tres" },
+  ];
+
   // Categorías que quieres mostrar
   const categorias = [
     "Cables",
@@ -37,11 +43,12 @@ export default function Home() {
 
       {/* Contenido principal (crece para llenar espacio) */}
       <main style={{ flex: 1 }}>
-        <Carousel />
+        <Carousel images={slides} interval={4000} autoPlay loop />
 
         {/* Sección de categorías */}
         <section className="container" style={{ marginTop: 32 }}>
-          <h2 style={{ marginBottom: 12 }}>Explora categorías / Ofertas</h2>
+          <h2 className="text-theme mb-3">Explora categorías / Ofertas</h2>
+
           <div
             style={{
               display: "grid",

@@ -43,7 +43,8 @@ const carouselItems = Array.from({ length: 18 }).map((_, i) => ({
       <hr />
 
       <section style={{ marginTop: 32 }}>
-        <h2 style={{ marginBottom: 12 }}>Explora categorías / Ofertas</h2>
+        <h2 className="text-theme mb-3">Explora categorías / Ofertas</h2>
+
         <div
           style={{
             display: "grid",

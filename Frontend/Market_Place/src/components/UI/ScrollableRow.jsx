@@ -1,13 +1,12 @@
-// src/components/UI/ScrollableRow.jsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 /**
- * Carrusel por páginas:
- * - Calcula cuántas tarjetas caben en el ancho visible (visibleCount)
- * - Muestra SOLO esa "página" de items (sin scroll horizontal)
- * - Flechas avanzan/retroceden de página
- * - Sin transform, sin overflow, sin barras horizontales
- * - Soporta teclas ← → y focus accesible
+ * ScrollableRow (con hooks, scroll nativo + drag)
+ * - Barra scrolleable inferior (overflow-x: auto)
+ * - Drag con mouse (click y arrastrar) + touch nativo
+ * - Flechas por “página” (número de tarjetas visibles)
+ * - Teclas ← → para navegar
+ * - Scroll-snap opcional para sensación tipo carrusel
  */
 export default function ScrollableRow({
   title = "International top sellers in Home",
@@ -20,14 +19,14 @@ export default function ScrollableRow({
   itemWidth = 140,
   itemHeight = 150,
   gap = 16,
-  // Opcional: personalizar el color de las flechas (por defecto mismo rojo del navbar)
   arrowColor = "red",
 }) {
-  const hostRef = useRef(null);
+  const hostRef = useRef(null);            // contenedor “card”
+  const scrollerRef = useRef(null);        // contenedor que hace scroll horizontal
   const [hostWidth, setHostWidth] = useState(0);
   const [page, setPage] = useState(0);
 
-  // Observa el ancho del contenedor para recalcular la capacidad visible
+  // ---- Observa el ancho del contenedor para saber cuántos caben ----
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
@@ -35,67 +34,118 @@ export default function ScrollableRow({
     const update = () => setHostWidth(el.clientWidth || 0);
     update();
 
-    // ResizeObserver para cambios de tamaño reales del contenedor
     const ro = "ResizeObserver" in window ? new ResizeObserver(update) : null;
     ro?.observe(el);
 
-    // Fallback por si el navegador no soporta ResizeObserver
     window.addEventListener("resize", update, { passive: true });
-
     return () => {
       ro?.disconnect();
       window.removeEventListener("resize", update);
     };
   }, []);
 
-  // ¿Cuántas tarjetas caben por página?
   const per = itemWidth + gap;
   const visibleCount = useMemo(() => {
     if (hostWidth <= 0) return 1;
-    // margen de seguridad para paddings internos
-    const inner = Math.max(0, hostWidth - 32);
+    const inner = Math.max(0, hostWidth - 32); // margen por paddings internos
     const n = Math.max(1, Math.floor((inner + gap) / per));
     return n;
   }, [hostWidth, per, gap]);
 
-  // Total de páginas
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(items.length / visibleCount));
   }, [items.length, visibleCount]);
 
-  // Asegura que la página actual exista si cambia el tamaño
+  // ---- Sincroniza página cuando se hace scroll manual (rueda, drag, etc.) ----
   useEffect(() => {
-    setPage((p) => Math.min(p, totalPages - 1));
-  }, [totalPages]);
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-  // Slice de la página actual
-  const start = page * visibleCount;
-  const end = start + visibleCount;
-  const pageItems = items.slice(start, end);
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const current = scroller.scrollLeft;
+        const pg = Math.round(current / (visibleCount * per));
+        setPage((p) => (p === pg ? p : Math.max(0, Math.min(pg, totalPages - 1))));
+      });
+    };
+
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      scroller.removeEventListener("scroll", onScroll);
+    };
+  }, [visibleCount, per, totalPages]);
+
+  // ---- Función para hacer “paging” por cantidad visible ----
+  const scrollToPage = (pg) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const clamped = Math.max(0, Math.min(pg, totalPages - 1));
+    const targetLeft = clamped * visibleCount * per;
+    scroller.scrollTo({ left: targetLeft, behavior: "smooth" });
+    setPage(clamped);
+  };
+
+  const go = (dir) => scrollToPage(page + dir);
 
   const atStart = page === 0;
   const atEnd = page >= totalPages - 1;
 
-  const go = (dir) => {
-    setPage((p) => {
-      const next = p + dir;
-      if (next < 0) return 0;
-      if (next > totalPages - 1) return totalPages - 1;
-      return next;
-    });
+  // ---- Navegación por teclado en todo el host (card) ----
+  const onKeyDown = (e) => {
+    if (e.key === "ArrowLeft" && !atStart) {
+      e.preventDefault();
+      go(-1);
+    }
+    if (e.key === "ArrowRight" && !atEnd) {
+      e.preventDefault();
+      go(1);
+    }
+  };
+
+  // ---- Drag con mouse (click + mover) sobre el scroller ----
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const startScrollRef = useRef(0);
+
+  const onPointerDown = (e) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    isDraggingRef.current = true;
+    startXRef.current = e.clientX;
+    startScrollRef.current = scroller.scrollLeft;
+    scroller.setPointerCapture?.(e.pointerId);
+    // Evita seleccionar texto/imágenes durante drag
+    scroller.style.cursor = "grabbing";
+    scroller.style.userSelect = "none";
+  };
+
+  const onPointerMove = (e) => {
+    const scroller = scrollerRef.current;
+    if (!scroller || !isDraggingRef.current) return;
+    const dx = e.clientX - startXRef.current;
+    scroller.scrollLeft = startScrollRef.current - dx;
+  };
+
+  const endDrag = (e) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    isDraggingRef.current = false;
+    scroller.releasePointerCapture?.(e.pointerId);
+    scroller.style.cursor = "";
+    scroller.style.userSelect = "";
   };
 
   return (
     <div
       ref={hostRef}
-      tabIndex={0} // permite foco para usar teclas
-      onKeyDown={(e) => {
-        if (e.key === "ArrowLeft" && !atStart) go(-1);
-        if (e.key === "ArrowRight" && !atEnd) go(1);
-      }}
+      tabIndex={0}
+      onKeyDown={onKeyDown}
       style={{
         maxWidth: "100%",
-        overflow: "hidden", // Blindaje para no afectar el layout externo
+        overflow: "hidden",
         isolation: "isolate",
         outline: "none",
       }}
@@ -112,21 +162,32 @@ export default function ScrollableRow({
         <div className="card-body" style={{ paddingBottom: 12 }}>
           <h5 style={{ fontWeight: 700, marginBottom: 12 }}>{title}</h5>
 
-          {/* Renderiza solo los items de la página actual */}
+          {/* SCROLLER: barra inferior visible + drag + snap */}
           <div
+            ref={scrollerRef}
             style={{
               display: "flex",
-              flexDirection: "row",
               gap,
-              padding: "4px 8px",
-              overflow: "hidden", // sin scroll, sin transform
-              minHeight: itemHeight + 20,
+              padding: "4px 8px 12px",
               boxSizing: "border-box",
-              justifyContent: "center",
-              alignItems: "center",              
+              overflowX: "auto",              // 👈 habilita scroll horizontal
+              overflowY: "hidden",
+              scrollbarGutter: "stable both-edges",
+              // Scroll snap para que “encajen” las tarjetas (opcional)
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch",
+              cursor: "grab",
+              scrollbarWidth: "thin", // 👈 más delgada en Firefox
+            }}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+            onPointerLeave={(e) => {
+              if (isDraggingRef.current) endDrag(e);
             }}
           >
-            {pageItems.map((it) => (
+            {items.map((it) => (
               <div
                 key={it.id}
                 title={it.title}
@@ -141,41 +202,29 @@ export default function ScrollableRow({
                   borderRadius: 54,
                   border: "1px solid #eee",
                   overflow: "hidden",
+                  // cada tarjeta se alinea al inicio al hacer snap
+                  scrollSnapAlign: "start",
                 }}
               >
                 <img
                   src={it.imageUrl}
                   alt={it.title}
                   loading="lazy"
+                  draggable={false} // evita arrastrar la imagen en vez del scroller
                   style={{
                     maxWidth: "100%",
                     maxHeight: "90%",
                     objectFit: "contain",
                     display: "block",
+                    pointerEvents: "none", // mejora la sensación de “drag”
                   }}
                 />
               </div>
             ))}
-
-            {/* Relleno invisible para que la fila quede estable */}
-            {pageItems.length < visibleCount &&
-              Array.from({ length: visibleCount - pageItems.length }).map(
-                (_, i) => (
-                  <div
-                    key={`ph-${i}`}
-                    style={{
-                      width: itemWidth,
-                      height: itemHeight,
-                      flex: "0 0 auto",
-                      visibility: "hidden",
-                    }}
-                  />
-                )
-              )}
           </div>
         </div>
 
-        {/* Flechas (no empujan layout) */}
+        {/* Flechas superpuestas (no empujan layout) */}
         <ArrowButton
           side="left"
           disabled={atStart}
@@ -190,32 +239,6 @@ export default function ScrollableRow({
           ariaLabel="Siguiente"
           color={arrowColor}
         />
-
-        {/* Indicadores de página */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 6,
-            left: "50%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            gap: 6,
-          }}
-        >
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <span
-              key={i}
-              aria-hidden="true"
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: i === page ? "#333" : "#cfcfcf",
-                display: "inline-block",
-              }}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -279,28 +302,20 @@ function arrowStyle(side, disabled, color) {
 
 /* Util para generar rgba desde hex o palabra clave */
 function rgba(baseColor, alpha) {
-  // Soporta "red" o hex #rrggbb / #rgb
   if (baseColor === "red") return `rgba(255,0,0,${alpha})`;
-  if (baseColor.startsWith("#")) {
+  if (baseColor?.startsWith?.("#")) {
     const c = hexToRgb(baseColor);
     if (!c) return baseColor;
     const { r, g, b } = c;
     return `rgba(${r},${g},${b},${alpha})`;
   }
-  // fallback: color tal cual
   return baseColor;
 }
 
 function hexToRgb(hex) {
   let h = hex.replace("#", "");
-  if (h.length === 3) {
-    h = h.split("").map((x) => x + x).join("");
-  }
+  if (h.length === 3) h = h.split("").map((x) => x + x).join("");
   if (h.length !== 6) return null;
   const num = parseInt(h, 16);
-  return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255,
-  };
+  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
 }
