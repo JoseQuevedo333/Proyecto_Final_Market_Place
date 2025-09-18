@@ -1,30 +1,32 @@
 import React from "react";
 import "../../css/TechCart.css";
-import { useCart } from "../../context/CartContext"; // 👈 importar hook
+import { useCart } from "../../context/CartContext"; // 👈 hook global
 
 export default function Cart() {
   const { cart, addToCart, increase, decrease, remove, total } = useCart();
 
-  const products = [
-    {
-      id: 1,
-      name: "Laptop X200",
-      price: 1200,
-      img: "/img/laptop.png", // usando carpeta public
-    },
-    {
-      id: 2,
-      name: "Wireless Mouse",
-      price: 35,
-      img: "/img/wireless_mouse.png",
-    },
-    {
-      id: 3,
-      name: "Mechanical Keyboard",
-      price: 80,
-      img: "/img/keyboard.png",
-    },
+  // 🔹 Pool de imágenes
+  const IMG_POOL = [
+    "https://m.media-amazon.com/images/I/71CXIa3POML._AC_SY200_.jpg",
+    "https://m.media-amazon.com/images/I/51drH2GQkZL._AC_SY200_.jpg",
+    "https://m.media-amazon.com/images/I/71Yk6yF+UsL._AC_SY200_.jpg",
+    "https://m.media-amazon.com/images/I/714rrcSCYgL._AC_SY200_.jpg",
+    "https://m.media-amazon.com/images/I/51fSHzJV5dL._AC_SY200_.jpg",
   ];
+
+  // 🔹 Precios estáticos para Fidel (se alternan igual que las imágenes)
+  const PRICE_POOL = [49.99, 79.99, 129.99, 199.99, 299.99];
+
+  // 🔹 Productos de Fidel
+  const fidelProducts = Array.from({ length: 18 }).map((_, i) => ({
+    id: `fidel-${i}`,
+    name: `Producto ${i + 1}`,
+    price: PRICE_POOL[i % PRICE_POOL.length], // 👈 precio fijo
+    img: IMG_POOL[i % IMG_POOL.length], // 👈 imagen fija
+  }));
+
+  // 🔹 Unificamos todos los productos
+  const products = [...fidelProducts];
 
   const handleCheckout = () => {
     if (cart.length === 0) return alert("Your cart is empty!");
