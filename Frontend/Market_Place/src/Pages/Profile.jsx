@@ -3,11 +3,13 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import Navbar from "../components/Layout/Navbar";
 import Footer from "../components/Layout/Footer";
 import { Link, useNavigate } from "react-router-dom";
+import Settings from "./Settings";
 
 
 function Profile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+   const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("loggedInUser");
@@ -61,9 +63,16 @@ function Profile() {
               </Card>
 
               <Card className="p-3">
-                <Button variant="light" size="lg">
-                  Ajustes de Usuario
-                </Button>
+
+                 <Button variant="light" size="lg" onClick={() => setShowSettings(true)}>
+                  Abrir configuración
+                  </Button>
+
+                  <Settings
+        show={showSettings}
+        handleClose={() => setShowSettings(false)}
+      />
+
               </Card>
 
               <Card className="p-3">

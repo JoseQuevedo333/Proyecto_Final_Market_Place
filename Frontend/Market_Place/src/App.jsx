@@ -10,6 +10,7 @@ import ResultsFound from "./Pages/ResultsFound";
 import Profile from "./Pages/Profile";
 import NotFound from "./Pages/NotFound";
 import AddProductForm from "./components/Forms/AddProductForm";
+import Settings from "./Pages/Settings";
 
 function App() {
   return (
