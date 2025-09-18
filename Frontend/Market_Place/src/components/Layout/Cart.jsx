@@ -1,84 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../css/TechCart.css";
+import { useCart } from "../../context/CartContext"; // 👈 importar hook
 
 export default function Cart() {
-  // Sample tech products
+  const { cart, addToCart, increase, decrease, remove, total } = useCart();
+
   const products = [
     {
       id: 1,
       name: "Laptop X200",
       price: 1200,
-      img: "https://via.placeholder.com/80",
+      img: "/img/laptop.png", // usando carpeta public
     },
     {
       id: 2,
       name: "Wireless Mouse",
       price: 35,
-      img: "https://via.placeholder.com/80",
+      img: "/img/wireless_mouse.png",
     },
     {
       id: 3,
       name: "Mechanical Keyboard",
       price: 80,
-      img: "https://via.placeholder.com/80",
+      img: "/img/keyboard.png",
     },
   ];
-
-  const [cart, setCart] = useState([]);
-
-  const addToCart = (product) => {
-    const existing = cart.find((item) => item.id === product.id);
-    if (existing) {
-      setCart(
-        cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
-    }
-  };
-
-  const increase = (id) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const decrease = (id) => {
-    setCart(
-      cart.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const remove = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
-  };
-
-  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handleCheckout = () => {
     if (cart.length === 0) return alert("Your cart is empty!");
     alert(`Checkout successful! Total: $${total.toFixed(2)}`);
-    setCart([]);
   };
 
   return (
-    <div className="tech-cart-container">
+    <main className="tech-cart-container d-flex flex-column min-vh-100">
       <h1 className="tech-cart-title">💻 SuperTech Store</h1>
 
       {/* Product Cards */}
-      <div className="tech-product-list row mb-4">
+      <div className="tech-product-list row mb-4 flex-grow-1">
         {products.map((product) => (
-          <div key={product.id} className="col-md-4 mb-3">
+          <div key={product.id} className="col-12 col-md-6 mb-3">
             <div className="card tech-product-card h-100">
               <img
                 src={product.img}
@@ -104,7 +64,7 @@ export default function Cart() {
 
       {/* Cart Offcanvas Button */}
       <button
-        className="btn btn-tech-cart mb-3"
+        className="btn btn-tech-cart mb-4 align-self-center"
         type="button"
         data-bs-toggle="offcanvas"
         data-bs-target="#techCartOffcanvas"
@@ -188,6 +148,6 @@ export default function Cart() {
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
