@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9090/api";
+const BASE_URL = "https://backendmarketplace-h8yv.onrender.com";
 const PRODUCTOS_URL = `${BASE_URL}/productos`;
 
 /**
