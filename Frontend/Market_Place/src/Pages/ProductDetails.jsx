@@ -10,7 +10,7 @@ export default function ProductDetails() {
     const fetchProducto = async () => {
       try {
         // REEMPLAZAR con la url de la api
-        const response = await fetch(`http://localhost:5000/api/productos/${id}`);
+        const response = await fetch(`http://localhost:9090/productos/${id}`);
         if (!response.ok) throw new Error("Producto no encontrado");
         const data = await response.json();
         setProducto(data);
