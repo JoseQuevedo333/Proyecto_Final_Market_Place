@@ -71,7 +71,8 @@ export default function Navbar() {
           {/* Derecha: Carrito + Botón tema */}
           <div className="d-flex align-items-center">
             <Link to="/cart" className="btn btn-light">
-              <FaShoppingCart size={22} />
+             <span>Ir Hacia el Carrito</span>
+              <FaShoppingCart size={22}  />
             </Link>
             <ThemeToggleButton /> {/* 👈 aquí el botón de tema */}
           </div>
