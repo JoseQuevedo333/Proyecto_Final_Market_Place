@@ -1,11 +1,12 @@
-const API_URL = "http://localhost:5000/api/productos";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:9090/api";
+const PRODUCTOS_URL = `${BASE_URL}/productos`;
 
 /**
  * 🔹 Obtener todos los productos
  */
 export async function getProductos() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(PRODUCTOS_URL);
     if (!res.ok) throw new Error("Error al obtener productos");
     return await res.json();
   } catch (err) {
@@ -16,11 +17,10 @@ export async function getProductos() {
 
 /**
  * 🔹 Obtener un producto por su ID
- * @param {number} id - ID del producto
  */
 export async function getProductoById(id) {
   try {
-    const res = await fetch(`${API_URL}/${id}`);
+    const res = await fetch(`${PRODUCTOS_URL}/${id}`);
     if (!res.ok) throw new Error("Error al obtener producto");
     return await res.json();
   } catch (err) {
@@ -31,11 +31,10 @@ export async function getProductoById(id) {
 
 /**
  * 🔹 Crear un nuevo producto
- * @param {object} producto - Datos del producto {nombre, precio, description, image_url}
  */
 export async function crearProducto(producto) {
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(PRODUCTOS_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(producto),
@@ -50,11 +49,10 @@ export async function crearProducto(producto) {
 
 /**
  * 🔹 Eliminar un producto por ID
- * @param {number} id - ID del producto
  */
 export async function eliminarProducto(id) {
   try {
-    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    const res = await fetch(`${PRODUCTOS_URL}/${id}`, { method: "DELETE" });
     if (!res.ok) throw new Error("Error al eliminar producto");
     return true;
   } catch (err) {
@@ -65,15 +63,14 @@ export async function eliminarProducto(id) {
 
 /**
  * 🔐 Verifica si el usuario está autenticado
- * Llama a GET /api/protected/ping con el token JWT
  */
 export async function checkAuth(token) {
   try {
-    const res = await fetch(`${API_URL}/ping`, {
+    const res = await fetch(`${BASE_URL}/protected/ping`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Enviamos token en el header
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -89,3 +86,5 @@ export async function checkAuth(token) {
     return { ok: false, error: err.message };
   }
 }
+
+export { BASE_URL, PRODUCTOS_URL };
