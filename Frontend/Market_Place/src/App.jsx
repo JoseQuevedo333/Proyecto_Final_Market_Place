@@ -11,6 +11,7 @@ import Profile from "./Pages/Profile";
 import NotFound from "./Pages/NotFound";
 import AddProductForm from "./components/Forms/AddProductForm";
 import Settings from "./Pages/Settings";
+import Sobre_Nosotros from "./Pages/Sobre_Nosotros";
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
       <Route path="/componentesfidel" element={<ComponentesFidel />} />
       <Route path="/categoria/cables" element={<ResultsFound />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/Sobre_Nosotros" element={<Sobre_Nosotros />} />
+      <Route path="/settings" element={<Settings />} />
       <Route path="*" element={<NotFound />} />
+
       <Route
         path="/add-product"
         element={
