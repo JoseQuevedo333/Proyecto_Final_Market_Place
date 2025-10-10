@@ -66,7 +66,18 @@ export default function Navbar() {
                 Registrar
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link fw-bold"
+                to="/Sobre_Nosotros"
+                style={{ fontSize: "1.1rem", color: "white" }}
+              >
+                Sobre Nosotros
+              </Link>
+            </li>
           </ul>
+
+
 
           {/* Derecha: Carrito + Botón tema */}
           <div className="d-flex align-items-center">
