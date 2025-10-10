@@ -10,7 +10,7 @@ export default function ProductDetails() {
     const fetchProducto = async () => {
       try {
         // REEMPLAZAR con la url de la api
-        const response = await fetch(`http://localhost:9090/productos/${id}`);
+        const response = await fetch(`https://backendmarketplace-h8yv.onrender.com/productos/${id}`);
         if (!response.ok) throw new Error("Producto no encontrado");
         const data = await response.json();
         setProducto(data);
