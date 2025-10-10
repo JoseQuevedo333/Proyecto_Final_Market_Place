@@ -19,7 +19,7 @@ export default function Navbar() {
           to="/"
           style={{ fontSize: "1.5rem", color: "white" }}
         >
-          Avalon Marketplace
+          Avalon Marketplace.
         </Link>
 
         {/* Botón hamburguesa responsive */}
