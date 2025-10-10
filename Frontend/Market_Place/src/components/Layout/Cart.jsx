@@ -10,7 +10,7 @@ export default function Cart() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/products"); // 👈 backend endpoint
+        const res = await fetch("https://backendmarketplace-h8yv.onrender.com/api/products"); // 👈 backend endpoint
         const data = await res.json();
         setProducts(data);
       } catch (err) {
