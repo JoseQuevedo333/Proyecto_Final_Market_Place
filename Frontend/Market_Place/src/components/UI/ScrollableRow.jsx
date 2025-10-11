@@ -2,11 +2,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 /**
  * ScrollableRow (con hooks, scroll nativo + drag)
- * - Barra scrolleable inferior (overflow-x: auto)
- * - Drag con mouse (click y arrastrar) + touch nativo
- * - Flechas por “página” (número de tarjetas visibles)
- * - Teclas ← → para navegar
- * - Scroll-snap opcional para sensación tipo carrusel
+ * MISMA PALETA QUE EL CARRUSEL:
+ *   --carousel-outer        (fondo contenedor)
+ *   --carousel-ctrl-bg      (fondo flechas / bordes)
+ *   --carousel-ctrl-icon    (texto / iconos)
+ *   --carousel-dot          (no se usa aquí, pero queda disponible)
+ *   --carousel-dot-active   (no se usa aquí, pero queda disponible)
  */
 export default function ScrollableRow({
   title = "International top sellers in Home",
@@ -19,10 +20,10 @@ export default function ScrollableRow({
   itemWidth = 140,
   itemHeight = 150,
   gap = 16,
-  arrowColor = "red",
+  arrowColor = "red", // se mantiene por compatibilidad, pero se ignora (usamos variables del carrusel)
 }) {
-  const hostRef = useRef(null);            // contenedor “card”
-  const scrollerRef = useRef(null);        // contenedor que hace scroll horizontal
+  const hostRef = useRef(null);
+  const scrollerRef = useRef(null);
   const [hostWidth, setHostWidth] = useState(0);
   const [page, setPage] = useState(0);
 
@@ -155,12 +156,21 @@ export default function ScrollableRow({
         style={{
           position: "relative",
           borderRadius: 12,
-          background: "#fff",
+          background: "var(--carousel-outer)", // MISMO fondo que el carrusel
           overflow: "hidden",
         }}
       >
         <div className="card-body" style={{ paddingBottom: 12 }}>
-          <h5 style={{ fontWeight: 700, marginBottom: 12 }}>{title}</h5>
+          <h5
+            style={{
+              fontWeight: 700,
+              marginBottom: 12,
+              color: "var(--carousel-title)", // 👈 nueva variable solo para títulos
+            }}
+          >
+            {title}
+          </h5>
+
 
           {/* SCROLLER: barra inferior visible + drag + snap */}
           <div
@@ -170,7 +180,7 @@ export default function ScrollableRow({
               gap,
               padding: "4px 8px 12px",
               boxSizing: "border-box",
-              overflowX: "auto",              // 👈 habilita scroll horizontal
+              overflowX: "auto", // 👈 habilita scroll horizontal
               overflowY: "hidden",
               scrollbarGutter: "stable both-edges",
               // Scroll snap para que “encajen” las tarjetas (opcional)
@@ -198,9 +208,9 @@ export default function ScrollableRow({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: "#f3f3f3",
+                  background: "var(--surface-1)", // usa superficie del tema para el item
                   borderRadius: 54,
-                  border: "1px solid #eee",
+                  border: "1px solid var(--carousel-ctrl-bg)", // MISMO borde que control del carrusel
                   overflow: "hidden",
                   // cada tarjeta se alinea al inicio al hacer snap
                   scrollSnapAlign: "start",
@@ -230,14 +240,12 @@ export default function ScrollableRow({
           disabled={atStart}
           onClick={() => go(-1)}
           ariaLabel="Anterior"
-          color={arrowColor}
         />
         <ArrowButton
           side="right"
           disabled={atEnd}
           onClick={() => go(1)}
           ariaLabel="Siguiente"
-          color={arrowColor}
         />
       </div>
     </div>
@@ -246,7 +254,7 @@ export default function ScrollableRow({
 
 /* ---------- Flechas ---------- */
 
-function ArrowButton({ side = "left", disabled, onClick, ariaLabel, color = "red" }) {
+function ArrowButton({ side = "left", disabled, onClick, ariaLabel }) {
   const isLeft = side === "left";
   return (
     <button
@@ -254,7 +262,7 @@ function ArrowButton({ side = "left", disabled, onClick, ariaLabel, color = "red
       onClick={onClick}
       disabled={disabled}
       aria-label={ariaLabel}
-      style={arrowStyle(side, disabled, color)}
+      style={arrowStyle(side, disabled)}
       onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.05)")}
       onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
     >
@@ -275,9 +283,8 @@ function ArrowButton({ side = "left", disabled, onClick, ariaLabel, color = "red
 }
 
 const ARROW_SIZE = 80; // diámetro del botón (px)
-const ARROW_FG = "#fff";
 
-function arrowStyle(side, disabled, color) {
+function arrowStyle(side, disabled) {
   return {
     position: "absolute",
     [side]: 10,
@@ -288,8 +295,9 @@ function arrowStyle(side, disabled, color) {
     height: ARROW_SIZE,
     borderRadius: "50%",
     border: "none",
-    background: disabled ? rgba(color, 0.35) : color,
-    color: ARROW_FG,
+    background: "var(--carousel-ctrl-bg)",     // MISMO fondo que el control del carrusel
+    color: "var(--carousel-ctrl-icon)",        // MISMO color de icono
+    opacity: disabled ? 0.35 : 1,              // estado deshabilitado (igual que hicimos antes)
     cursor: disabled ? "default" : "pointer",
     display: "grid",
     placeItems: "center",
@@ -298,24 +306,4 @@ function arrowStyle(side, disabled, color) {
       : "0 4px 14px rgba(0,0,0,.25)",
     transition: "filter .15s ease, transform .15s ease",
   };
-}
-
-/* Util para generar rgba desde hex o palabra clave */
-function rgba(baseColor, alpha) {
-  if (baseColor === "red") return `rgba(255,0,0,${alpha})`;
-  if (baseColor?.startsWith?.("#")) {
-    const c = hexToRgb(baseColor);
-    if (!c) return baseColor;
-    const { r, g, b } = c;
-    return `rgba(${r},${g},${b},${alpha})`;
-  }
-  return baseColor;
-}
-
-function hexToRgb(hex) {
-  let h = hex.replace("#", "");
-  if (h.length === 3) h = h.split("").map((x) => x + x).join("");
-  if (h.length !== 6) return null;
-  const num = parseInt(h, 16);
-  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
 }

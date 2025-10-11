@@ -24,7 +24,7 @@ body {
   font-weight: 400;
 
   /* Se setean vía variables del tema */
-  background:#c20202; 
+  background:#D9CDBF; 
   color: var(--text);
 }
 
@@ -81,7 +81,7 @@ button:hover { background-color: var(--btn-bg-hover); border-color: #646cff; }
 button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
 
 /* Utilidades existentes */
-.bg-navbar-red { background-color: red !important; color: white !important; }
+.bg-navbar-red { background-color: var(--carousel-outer) !important; color: white !important; border-radius: 12px;}
 .custom-red { background-color: red; border-color: red; color: #fff; }
 .custom-red:hover { background-color: #f70000; border-color: #8b1a1a; }
 
@@ -119,6 +119,28 @@ button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color;
   /* Sombras */
   --shadow: rgba(0, 0, 0, 0.08);
 
+  --navbar-bg: #DAF222;   /* amarillo lima */
+  --navbar-text: #232608; /* texto oscuro */
+  --navbar-hover: #898C23; /* oliva */
+
+    /* Carrusel */
+  --carousel-outer: #F2E635;        /* marco exterior (antes rojo) */
+  --carousel-ctrl-bg: #232608;      /* fondo de flechas */
+  --carousel-ctrl-icon: #DAF222;    /* ícono de flechas */
+  --carousel-dot: rgba(255,255,255,.35);
+  --carousel-dot-active: #DAF222;
+  --carousel-title: #232608;   /* 👈 texto oscuro sobre fondo claro */
+
+  /* Recomendaciones (fila scrolleable) */
+  --row-card-bg: #232608;           /* fondo de la tarjeta contenedora */
+  --row-title: #D9CDBF;
+  --row-item-bg: #f3f3f3;
+  --row-item-border: #898C23;
+
+  --row-arrow: #232608;             /* fondo flechas redondas */
+  --row-arrow-icon: #DAF222;        /* ícono flecha */
+  --row-arrow-disabled: rgba(35,38,8,.35);
+
   color-scheme: light;
 }
 
@@ -126,7 +148,7 @@ button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color;
 .dark {
   --outer-bg: #0e0e14;   /* lateral / fondo general en oscuro */
   --text: #e6e6e6;
-  --main-bg: #151515;    /* fondo del contenido */
+  --main-bg: grey;    /* fondo del contenido */
 
   /* Superficies en grises */
   --surface-1: #1a1a1a;  /* cards principales */
@@ -149,6 +171,28 @@ button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color;
   --btn-bg-hover: #3a3a3a;
 
   --shadow: rgba(0, 0, 0, 0.4);
+
+  --navbar-bg: #232608;   /* verde oscuro */
+  --navbar-text: #DAF222; /* texto amarillo */
+  --navbar-hover: #F2E635; /* amarillo cálido */
+
+    /* Carrusel */
+  --carousel-outer: #232608;
+  --carousel-ctrl-bg: #DAF222;
+  --carousel-ctrl-icon: #232608;
+  --carousel-dot: rgba(255,255,255,.35);
+  --carousel-dot-active: #DAF222;
+  --carousel-title: #daf222;   /* 👈 texto claro sobre fondo oscuro */
+
+  /* Recomendaciones */
+  --row-card-bg: #1a1a1a;
+  --row-title: #DAF222;
+  --row-item-bg: #2a2a2a;
+  --row-item-border: #2f333a;
+
+  --row-arrow: #DAF222;
+  --row-arrow-icon: #232608;
+  --row-arrow-disabled: rgba(218,242,34,.35);
 
   color-scheme: dark;
 }
@@ -239,3 +283,19 @@ hr,
 .text-theme {
   color: var(--text) !important;
 }
+
+/* Día */
+.light .btn-theme-toggle button {
+  background:#DAF222 !important;   /* fondo */
+  color:#232608 !important;         /* icono */
+  border:2px solid #898C23 !important;
+}
+.light .btn-theme-toggle button:hover { background:#F2E635 !important; }
+
+/* Noche */
+.dark .btn-theme-toggle button {
+  background:#232608 !important;
+  color:#DAF222 !important;
+  border:2px solid #DAF222 !important;
+}
+.dark .btn-theme-toggle button:hover { background:#898C23 !important; }
