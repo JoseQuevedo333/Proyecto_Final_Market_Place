@@ -45,7 +45,7 @@ export default function Navbar() {
                 to="/"
                 style={{ fontSize: "1.1rem", color: "white" }}
               >
-                Home
+                Inicio
               </Link>
             </li>
             <li className="nav-item">
@@ -77,13 +77,11 @@ export default function Navbar() {
             </li>
           </ul>
 
-
-
           {/* Derecha: Carrito + Botón tema */}
           <div className="d-flex align-items-center">
             <Link to="/cart" className="btn btn-light">
-             <span>Ir Hacia el Carrito</span>
-              <FaShoppingCart size={22}  />
+              <span>Ir Hacia el Carrito</span>
+              <FaShoppingCart size={22} />
             </Link>
             <ThemeToggleButton /> {/* 👈 aquí el botón de tema */}
           </div>
