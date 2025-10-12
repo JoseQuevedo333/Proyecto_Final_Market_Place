@@ -10,6 +10,11 @@ import Profile from "./Pages/Profile";
 import NotFound from "./Pages/NotFound";
 import Settings from "./Pages/Settings";
 import Sobre_Nosotros from "./Pages/Sobre_Nosotros";
+import CategoriaPage from "./components/Layout/CategoriaPages";
+import Cables from "./Pages/Categorias/Cables";
+import Computadores from "./Pages/Categorias/Computadores";
+import Telefonos from "./Pages/Categorias/Telefonos";
+import Videojuegos from "./Pages/Categorias/Videojuegos";
 
 function App() {
   return (
@@ -25,6 +30,10 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/Sobre_Nosotros" element={<Sobre_Nosotros />} />
       <Route path="/settings" element={<Settings />} />
+      <Route path="/categorias/cables" element={<Cables />} />
+      <Route path="/categorias/computadores" element={<Computadores />} />
+      <Route path="/categorias/telefonos" element={<Telefonos />} />
+      <Route path="/categorias/videojuegos" element={<Videojuegos />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
