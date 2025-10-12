@@ -1,67 +1,73 @@
-// src/components/CategoriaPage.jsx
 import { useEffect, useState } from "react";
+import { useCart } from "../../context/CartContext";
 
-const CategoriaPage = ({ categoria }) => {
-  const [productos, setProductos] = useState([]);
-  const [cargando, setCargando] = useState(true);
+export default function CategoriaPage({ titulo, descripcion, categoria }) {
+  const { addToCart } = useCart();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProductos = async () => {
+    const fetchCategoryProducts = async () => {
       try {
         const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos");
         const data = await res.json();
-        const filtrados = data.filter(
-          (p) => p.categoria.toLowerCase() === categoria.toLowerCase()
-        );
-        setProductos(filtrados);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      } finally {
-        setCargando(false);
+
+        const filtered = data
+          .filter((p) => p.categoria?.toLowerCase() === categoria.toLowerCase())
+          .map((p) => ({
+            ...p,
+            name: p.nombre,
+            price: Number(p.precio),
+          }));
+
+        setProducts(filtered);
+      } catch (err) {
+        console.error("Error cargando productos:", err);
       }
     };
 
-    fetchProductos();
+    fetchCategoryProducts();
   }, [categoria]);
 
-  if (cargando)
-    return <p className="text-center text-yellow-400 mt-10">Cargando productos...</p>;
-
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-4xl font-bold text-yellow-400 text-center mb-8">
-        {categoria}
-      </h1>
+    <div className="container py-5 text-center">
+      <h1 className="text-yellow-400 mb-3">{titulo}</h1>
+      <p className="text-gray-400 mb-4">{descripcion}</p>
 
-      {productos.length === 0 ? (
-        <p className="text-center text-gray-400">
-          No hay productos disponibles en esta categoría.
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {productos.map((producto) => (
+      <div
+        className="grid"
+        style={{
+          display: "grid",
+          gap: "20px",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+        }}
+      >
+        {products.length === 0 ? (
+          <p className="text-gray-500">Cargando productos...</p>
+        ) : (
+          products.map((product) => (
             <div
-              key={producto.id}
-              className="bg-gray-900 border border-yellow-600 rounded-2xl p-4 hover:scale-105 transition-transform shadow-lg"
+              key={product.id}
+              className="card bg-dark border border-yellow-600 text-white"
             >
               <img
-                src={producto.imagen}
-                alt={producto.nombre}
-                className="rounded-lg h-48 w-full object-cover mb-3"
+                src={product.image_url || product.img}
+                alt={product.nombre}
+                style={{ height: "180px", objectFit: "cover" }}
               />
-              <h3 className="text-xl font-semibold text-yellow-400">
-                {producto.nombre}
-              </h3>
-              <p className="text-gray-300 mt-1">{producto.descripcion}</p>
-              <p className="text-yellow-500 mt-2 font-bold">
-                ${producto.precio}
-              </p>
+              <div className="card-body">
+                <h5>{product.nombre}</h5>
+                <p className="text-warning">${product.precio}</p>
+                <button
+                  className="btn btn-warning w-100"
+                  onClick={() => addToCart(product)}
+                >
+                  Añadir al carrito 🛒
+                </button>
+              </div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
-};
-
-export default CategoriaPage;
+}
