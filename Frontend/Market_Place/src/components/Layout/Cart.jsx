@@ -8,17 +8,25 @@ export default function Cart() {
 
   // ✅ Fetch products from your backend
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos"); // 👈 backend endpoint
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      }
-    };
-    fetchProducts();
-  }, []);
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos");
+      const data = await res.json();
+
+      // Map backend fields to match what your CartContext expects
+      const formattedProducts = data.map(product => ({
+        ...product,
+        name: product.nombre,             // Cart expects "name"
+        price: Number(product.precio),    // Cart expects "price" as number
+      }));
+
+      setProducts(formattedProducts);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+    }
+  };
+  fetchProducts();
+}, []);
 
   // ✅ Checkout handler
   const handleCheckout = () => {
