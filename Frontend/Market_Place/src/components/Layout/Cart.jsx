@@ -41,14 +41,14 @@ export default function Cart() {
                 <img
                   src={product.image_url || product.img} // ✅ handle backend field
                   className="card-img-top tech-product-img"
-                  alt={product.name}
+                  alt={product.nombre}
                 />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title tech-product-name">
-                    {product.name}
+                    {product.nombre}
                   </h5>
                   <p className="card-text tech-product-price">
-                    ${product.price?.toFixed(2) || "0.00"}
+                   ${product.precio ? Number(product.precio).toFixed(2) : "0.00"}
                   </p>
                   <button
                     className="btn btn-tech-add mt-auto"
