@@ -18,7 +18,6 @@ export default function Home() {
     { src: "https://picsum.photos/1200/400?random=3", alt: "Tres" },
   ];
 
-  // Categorías que quieres mostrar
   const categorias = [
     "Cables",
     "Computadores",
@@ -35,55 +34,87 @@ export default function Home() {
       style={{
         display: "flex",
         flexDirection: "column",
-        minHeight: "100vh", // 👈 asegura 100% pantalla
+        minHeight: "100vh",
+        backgroundColor: "#fafafa",
       }}
     >
       {/* Header */}
       <Navbar />
 
-      {/* Contenido principal (crece para llenar espacio) */}
+      {/* Main content */}
       <main style={{ flex: 1 }}>
         <Carousel images={slides} interval={4000} autoPlay loop />
 
-        {/* Sección de categorías */}
-        <section className="container" style={{ marginTop: 32 }}>
-          <h2 className="text-theme mb-3">Explora categorías / Ofertas</h2>
+        {/* Categorías */}
+        <section
+          className="container"
+          style={{
+            marginTop: 32,
+            paddingInline: 16,
+          }}
+        >
+          <h2
+            className="text-theme mb-3"
+            style={{
+              fontSize: "1.5rem",
+              textAlign: "center",
+              marginBottom: 24,
+            }}
+          >
+            Explora categorías / Ofertas
+          </h2>
 
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(240px, 1fr))",
               gap: 16,
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              justifyItems: "center",
             }}
           >
             {categorias.map((titulo, i) => (
               <InfoOfferCard
                 key={i}
                 title={titulo}
-                imageUrl={`https://picsum.photos/seed/cat${i}/300/220`} // 👈 opcional: imagen distinta
-                linkTo={`/categoria/${titulo.toLowerCase()}`} // 👈 opcional: link distinto
+                imageUrl={`https://picsum.photos/seed/cat${i}/300/220`}
+                linkTo={`/categoria/${titulo.toLowerCase()}`}
                 linkText="Ver más"
               />
             ))}
           </div>
         </section>
 
-        {/* Sección de recomendaciones */}
+        {/* Recomendaciones */}
         <section
-          className="container bg-navbar-red py-5"
-          style={{ marginTop: 32, maxWidth: "100%", overflow: "hidden" }}
+          className="container py-5"
+          style={{
+            marginTop: 32,
+            maxWidth: "100%",
+            overflow: "hidden",
+            backgroundColor: "#898C23",
+          }}
         >
+          <h2
+            style={{
+              color: "white",
+              textAlign: "center",
+              marginBottom: 16,
+              fontSize: "1.5rem",
+            }}
+          >
+            Recomendaciones
+          </h2>
           <ScrollableRow
-            title="Recomendaciones"
+            title=""
             items={carouselItems}
-            itemWidth={180}
-            itemHeight={150}
-            gap={16}
+            itemWidth={160}
+            itemHeight={140}
+            gap={12}
           />
         </section>
       </main>
 
-      {/* Footer fijo abajo si hay poco contenido */}
+      {/* Footer */}
       <Footer />
     </div>
   );

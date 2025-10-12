@@ -7,14 +7,14 @@
 }
 
 .tech-cart-title {
-  color: #e30613;
+  color: #232608;
   text-align: center;
   margin-bottom: 2rem;
 }
 
 /* Product Cards */
 .tech-product-card {
-  border: 2px solid #e30613;
+  border: 2px solid #232608;
   border-radius: 12px;
   transition: transform 0.2s;
 }
@@ -22,7 +22,7 @@
   transform: scale(1.05);
 }
 .tech-product-img {
-  border-bottom: 2px solid #e30613;
+  border-bottom: 2px solid #232608;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   height: 180px;
@@ -32,21 +32,21 @@
   font-weight: bold;
 }
 .tech-product-price {
-  color: #e30613;
+  color: #232608;
   font-weight: bold;
 }
 .btn-tech-add {
-  background-color: #e30613;
+  background-color: #232608;
   color: white;
   border: none;
 }
 .btn-tech-add:hover {
-  background-color: #b3050f;
+  background-color: #898C23;
 }
 
 /* Offcanvas */
 .tech-cart-header {
-  background-color: #e30613;
+  background-color: #898C23;
   color: white;
   font-weight: bold;
 }
@@ -55,23 +55,23 @@
   height: 50px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border: 1px solid #232608;
 }
 
 /* Buttons */
 .btn-tech-cart {
-  background-color: #e30613;
+  background-color: #898C23;
   color: white;
   border: none;
 }
 .btn-tech-cart:hover {
-  background-color: #b3050f;
+  background-color: #898C23;
 }
 .btn-tech-checkout {
-  background-color: #e30613;
+  background-color: #DAF222;
   color: white;
   border: none;
 }
 .btn-tech-checkout:hover {
-  background-color: #b3050f;
+  background-color: #898C23;
 }

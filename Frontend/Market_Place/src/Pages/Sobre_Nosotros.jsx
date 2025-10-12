@@ -9,7 +9,7 @@ export default function SobreNosotros() {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        backgroundColor: "#f8f9fa",
+        backgroundColor: "#898C23",
       }}
     >
       <Navbar />
@@ -29,7 +29,7 @@ export default function SobreNosotros() {
         </section>
 
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ color: "#b22222", marginBottom: 10 }}>Nuestra Misión</h2>
+          <h2 style={{ color: "#232608", marginBottom: 10 }}>Nuestra Misión</h2>
           <p style={{ fontSize: "1.05rem", lineHeight: 1.7, textAlign: "justify" }}>
             Facilitar el acceso a tecnología de última generación a precios justos, 
             creando un espacio donde tanto compradores como vendedores se beneficien 
@@ -38,7 +38,7 @@ export default function SobreNosotros() {
         </section>
 
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ color: "#b22222", marginBottom: 10 }}>Nuestra Visión</h2>
+          <h2 style={{ color: "#232608", marginBottom: 10 }}>Nuestra Visión</h2>
           <p style={{ fontSize: "1.05rem", lineHeight: 1.7, textAlign: "justify" }}>
             Ser la plataforma líder en comercio electrónico de tecnología en Latinoamérica, 
             destacando por la innovación, el servicio al cliente y la responsabilidad digital.
@@ -46,7 +46,7 @@ export default function SobreNosotros() {
         </section>
 
         <section>
-          <h2 style={{ color: "#b22222", marginBottom: 10 }}>Nuestro Equipo</h2>
+          <h2 style={{ color: "#232608", marginBottom: 10 }}>Nuestro Equipo</h2>
           <p style={{ fontSize: "1.05rem", lineHeight: 1.7, textAlign: "justify" }}>
             Detrás de Avalon Market Place hay un equipo apasionado por la tecnología, 
             estar a la vanguardia y la satisfacción del cliente. Trabajamos día a día 

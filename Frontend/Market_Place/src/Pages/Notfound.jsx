@@ -18,7 +18,10 @@ const NotFound = () => {
         <h1>404</h1>
         <h2>Página no encontrada</h2>
         <p>La página que buscas no existe o fue movida.</p>
-        <Button className="btn-superzoo" onClick={() => navigate("/")}>
+        <Button
+          style={{ backgroundColor: "#232608", color: "white", border: "none" }}
+          onClick={() => navigate("/")}
+        >
           ⬅ Volver al inicio
         </Button>
       </div>

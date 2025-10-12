@@ -64,6 +64,17 @@ export default function Navbar() {
                 Registrar
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                to="/Sobre_Nosotros"
+                className={({ isActive }) =>
+                  `nav-link fw-bold ${isActive ? "active" : ""}`
+                }
+                style={{ fontSize: "1.1rem" }}
+              >
+                Sobre Nosotros
+              </NavLink>
+            </li>
           </ul>
 
           {/* Derecha: Carrito + Botón tema */}
