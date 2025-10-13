@@ -16,6 +16,7 @@ export default function Cart() {
           ...product,
           name: product.nombre,
           price: Number(product.precio),
+          image_url: product.image_url,
         }));
 
         setProducts(formattedProducts);
@@ -51,17 +52,25 @@ export default function Cart() {
           products.map((product) => (
             <div key={product.id} className="col-12 col-md-6 mb-3">
               <div
-                className="card h-100"
+                className="card h-100 tech-product-card"
                 style={{
                   backgroundColor: "#1b1e05",
                   border: "2px solid #F2E635",
                   color: "#DAF222",
+                  overflow: "hidden",
                 }}
               >
                 <img
                   src={product.image_url || product.img}
-                  className="card-img-top"
                   alt={product.nombre}
+                  className="tech-product-img"
+                  style={{
+                    width: "100%",
+                    height: "220px",
+                    objectFit: "contain", // ✅ mantiene proporción sin recortar
+                    backgroundColor: "#fff",
+                    borderBottom: "2px solid #F2E635",
+                  }}
                 />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{product.nombre}</h5>
@@ -101,8 +110,8 @@ export default function Cart() {
           backgroundColor: "#DAF222",
           color: "#232608",
           fontWeight: "bold",
-          padding: "20px 50px",   // 🔥 más grande
-          fontSize: "1.4rem",     // 🔥 texto más grande
+          padding: "20px 50px",
+          fontSize: "1.4rem",
           borderRadius: "15px",
           boxShadow: "0 0 15px #F2E635",
           transition: "transform 0.2s ease, background-color 0.3s",
