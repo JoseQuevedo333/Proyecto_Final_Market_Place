@@ -11,8 +11,18 @@ export default function CategoriaPage({ titulo, descripcion, categoria }) {
         const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos");
         const data = await res.json();
 
+        // Map page categories to DB categories
+        const categoryMap = {
+          Telefonos: "Phones",
+          Computadores: "PC",
+          Cables: "Cables",
+          Videojuegos: "VideoGames",
+        };
+
+        const dbCategory = categoryMap[categoria] || categoria;
+
         const filtered = data
-          .filter((p) => p.category?.toLowerCase() === categoria.toLowerCase()) // ✅ changed this
+          .filter((p) => p.category?.toLowerCase() === dbCategory.toLowerCase())
           .map((p) => ({
             ...p,
             name: p.nombre,
