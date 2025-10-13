@@ -7,7 +7,7 @@ import Cart_Page from "./Pages/Cart_Page";
 import AdminProducts from "./Pages/Admin_Products";
 import ResultsFound from "./Pages/ResultsFound";
 import Profile from "./Pages/Profile";
-import NotFound from "./Pages/NotFound";
+import NotFound from "./Pages/Notfound";
 import Settings from "./Pages/Settings";
 import Sobre_Nosotros from "./Pages/Sobre_Nosotros";
 import CategoriaPage from "./components/Layout/CategoriaPages";
