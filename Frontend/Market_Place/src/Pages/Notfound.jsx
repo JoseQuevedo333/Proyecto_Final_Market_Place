@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Layout/Navbar";
 import Footer from "../components/Layout/Footer";
-import "../css/NotFound.css";
+import "../css/Notfound.css";
 
 const NotFound = () => {
   const navigate = useNavigate();
