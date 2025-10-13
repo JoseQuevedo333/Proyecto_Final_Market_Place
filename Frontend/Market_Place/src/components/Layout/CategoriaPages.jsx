@@ -4,6 +4,7 @@ import { useCart } from "../../context/CartContext";
 export default function CategoriaPage({ titulo, descripcion, categoria }) {
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategoryProducts = async () => {
@@ -11,18 +12,8 @@ export default function CategoriaPage({ titulo, descripcion, categoria }) {
         const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos");
         const data = await res.json();
 
-        // Map page categories to DB categories
-        const categoryMap = {
-          Telefonos: "Phones",
-          Computadores: "PC",
-          Cables: "Cables",
-          Videojuegos: "VideoGames",
-        };
-
-        const dbCategory = categoryMap[categoria] || categoria;
-
         const filtered = data
-          .filter((p) => p.category?.toLowerCase() === dbCategory.toLowerCase())
+          .filter((p) => p.category?.toLowerCase() === categoria.toLowerCase())
           .map((p) => ({
             ...p,
             name: p.nombre,
@@ -32,37 +23,45 @@ export default function CategoriaPage({ titulo, descripcion, categoria }) {
         setProducts(filtered);
       } catch (err) {
         console.error("Error cargando productos:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCategoryProducts();
   }, [categoria]);
 
+  // Fallback image in case URL is missing or broken
+  const fallbackImg = "/fallback-image.jpg";
+
   return (
     <div className="container py-5 text-center">
       <h1 className="text-yellow-400 mb-3">{titulo}</h1>
       <p className="text-gray-400 mb-4">{descripcion}</p>
 
-      <div
-        className="grid"
-        style={{
-          display: "grid",
-          gap: "20px",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-        }}
-      >
-        {products.length === 0 ? (
-          <p className="text-gray-500">Cargando productos...</p>
-        ) : (
-          products.map((product) => (
+      {loading ? (
+        <p className="text-gray-500">Cargando productos...</p>
+      ) : products.length === 0 ? (
+        <p className="text-gray-500">No hay productos disponibles en esta categoría.</p>
+      ) : (
+        <div
+          className="grid"
+          style={{
+            display: "grid",
+            gap: "20px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          }}
+        >
+          {products.map((product) => (
             <div
               key={product.id}
               className="card bg-dark border border-yellow-600 text-white"
             >
               <img
-                src={product.image_url || product.img}
+                src={product.image_url || product.img || fallbackImg}
                 alt={product.nombre}
                 style={{ height: "180px", objectFit: "cover" }}
+                onError={(e) => (e.currentTarget.src = fallbackImg)}
               />
               <div className="card-body">
                 <h5>{product.nombre}</h5>
@@ -75,9 +74,9 @@ export default function CategoriaPage({ titulo, descripcion, categoria }) {
                 </button>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
