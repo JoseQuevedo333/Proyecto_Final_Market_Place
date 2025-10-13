@@ -7,29 +7,34 @@ export default function CategoriaPage({ titulo, descripcion, categoria }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategoryProducts = async () => {
-      try {
-        const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos");
-        const data = await res.json();
+  const fetchCategoryProducts = async () => {
+    try {
+      const res = await fetch("https://backendmarketplace-h8yv.onrender.com/productos");
+      const data = await res.json();
 
-        const filtered = data
-          .filter((p) => p.category?.toLowerCase() === categoria.toLowerCase())
-          .map((p) => ({
-            ...p,
-            name: p.nombre,
-            price: Number(p.precio),
-          }));
+      console.log("📦 All products from backend:", data);
+      console.log("🔍 Filtering by category:", categoria);
 
-        setProducts(filtered);
-      } catch (err) {
-        console.error("Error cargando productos:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const filtered = data
+        .filter((p) => p.category?.toLowerCase() === categoria.toLowerCase())
+        .map((p) => ({
+          ...p,
+          name: p.nombre,
+          price: Number(p.precio),
+        }));
 
-    fetchCategoryProducts();
-  }, [categoria]);
+      console.log("✅ Filtered products:", filtered);
+
+      setProducts(filtered);
+    } catch (err) {
+      console.error("Error cargando productos:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchCategoryProducts();
+}, [categoria]);
 
   // Fallback image in case URL is missing or broken
   const fallbackImg = "/fallback-image.jpg";
