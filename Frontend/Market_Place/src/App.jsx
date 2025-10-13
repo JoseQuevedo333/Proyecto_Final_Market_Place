@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -10,8 +10,6 @@ import Profile from "./Pages/Profile";
 import NotFound from "./Pages/Notfound";
 import Settings from "./Pages/Settings";
 import Sobre_Nosotros from "./Pages/Sobre_Nosotros";
-
-// Paginas de Categorias
 import Cables from "./Pages/Categorias/Cables";
 import Computadores from "./Pages/Categorias/Computadores";
 import Telefonos from "./Pages/Categorias/Telefonos";
@@ -19,32 +17,24 @@ import Videojuegos from "./Pages/Categorias/Videojuegos";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Rutas Principales */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/cart" element={<Cart_Page />} />
-        <Route path="/admin_products" element={<AdminProducts />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/sobre_nosotros" element={<Sobre_Nosotros />} />
-
-        {/* Categorias */}
-        <Route path="/categorias/cables" element={<Cables />} />
-        <Route path="/categorias/computadores" element={<Computadores />} />
-        <Route path="/categorias/telefonos" element={<Telefonos />} />
-        <Route path="/categorias/videojuegos" element={<Videojuegos />} />
-
-        {/* Resultados de Búsqueda */}
-        <Route path="/categoria/cables" element={<ResultsFound />} />
-
-        {/* 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
+      <Route path="/cart" element={<Cart_Page />} />
+      <Route path="/admin_products" element={<AdminProducts />} />
+      <Route path="/productdetails" element={<ProductDetails />} />
+      <Route path="/categoria/cables" element={<ResultsFound />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/Sobre_Nosotros" element={<Sobre_Nosotros />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/categorias/cables" element={<Cables />} />
+      <Route path="/categorias/computadores" element={<Computadores />} />
+      <Route path="/categorias/telefonos" element={<Telefonos />} />
+      <Route path="/categorias/videojuegos" element={<Videojuegos />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 
