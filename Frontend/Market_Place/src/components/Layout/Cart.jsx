@@ -5,6 +5,7 @@ import { useCart } from "../../context/CartContext";
 export default function Cart() {
   const { cart, addToCart, increase, decrease, remove, total } = useCart();
   const [products, setProducts] = useState([]);
+  
 
   useEffect(() => {
     const fetchProducts = async () => {

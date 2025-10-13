@@ -12,7 +12,7 @@ export default function CategoriaPage({ titulo, descripcion, categoria }) {
         const data = await res.json();
 
         const filtered = data
-          .filter((p) => p.categoria?.toLowerCase() === categoria.toLowerCase())
+          .filter((p) => p.category?.toLowerCase() === categoria.toLowerCase()) // ✅ changed this
           .map((p) => ({
             ...p,
             name: p.nombre,

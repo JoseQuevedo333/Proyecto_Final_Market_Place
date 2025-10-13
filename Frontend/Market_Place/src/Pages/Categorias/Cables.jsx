@@ -1,7 +1,6 @@
-// src/Pages/Categorias/Cables.jsx
 import Navbar from "../../components/Layout/Navbar";
 import Footer from "../../components/Layout/Footer";
-import CategoriaPage from "../../components/Layout/CategoriaPages";
+import CategoriaPage from "../../components/Layout/CategoriaPage";
 
 export default function Cables() {
   return (
@@ -14,19 +13,14 @@ export default function Cables() {
         flexDirection: "column",
       }}
     >
-      {/* Navbar */}
       <Navbar />
-
-      {/* Contenido principal */}
       <main style={{ flex: 1 }}>
         <CategoriaPage
-          titulo="Cables"
-          descripcion="Encuentra cables HDMI, USB, de red y más, con la mejor calidad y precio."
+          titulo="Cables y Conectividad"
+          descripcion="Descubre cables, adaptadores y accesorios para mantener todo conectado."
           categoria="Cables"
         />
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
