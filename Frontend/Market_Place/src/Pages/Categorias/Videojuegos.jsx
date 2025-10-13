@@ -1,6 +1,6 @@
 import Navbar from "../../components/Layout/Navbar";
 import Footer from "../../components/Layout/Footer";
-import CategoriaPage from "../../components/Layout/CategoriaPage";
+import CategoriaPage from "../../components/Layout/CategoriaPages";
 
 export default function VideoJuegos() {
   return (
