@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Alert, Card } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Layout/Navbar";
 import Footer from "../components/Layout/Footer";
-import { registerUser } from "../api";
+import { registerUser } from "../services/api";
 
 export default function Register() {
   const [name, setName] = useState("");
