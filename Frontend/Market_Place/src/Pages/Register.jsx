@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button, Alert, Card } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Layout/Navbar";
 import Footer from "../components/Layout/Footer";
-import { users } from "../assets/users";
+import { registerUser } from "../api";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -11,10 +11,11 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -28,17 +29,26 @@ export default function Register() {
       return;
     }
 
-    const existingUser = users.find((u) => u.email === email);
-    if (existingUser) {
-      setError("Este email ya está registrado.");
-      return;
+    setLoading(true);
+    try {
+      const result = await registerUser({ name, email, password });
+
+      if (result.error) {
+        setError(result.error);
+        setLoading(false);
+        return;
+      }
+
+      // Save the user and token in localStorage
+      localStorage.setItem("loggedInUser", JSON.stringify(result.user));
+      localStorage.setItem("token", result.token);
+
+      navigate("/profile");
+    } catch (err) {
+      console.error("Error registrando usuario:", err);
+      setError("Error inesperado. Intenta de nuevo.");
+      setLoading(false);
     }
-
-    const newUser = { name, email, password };
-    users.push(newUser);
-
-    localStorage.setItem("loggedInUser", JSON.stringify(newUser));
-    navigate("/profile");
   };
 
   return (
@@ -100,8 +110,8 @@ export default function Register() {
                   </Form.Group>
 
                   <div className="d-grid">
-                    <Button type="submit" className="btn btn-register btn-lg">
-                      Crear cuenta
+                    <Button type="submit" className="btn btn-register btn-lg" disabled={loading}>
+                      {loading ? "Creando cuenta..." : "Crear cuenta"}
                     </Button>
                   </div>
                 </Form>
@@ -125,7 +135,6 @@ export default function Register() {
 
       <Footer />
 
-      {/* ===== Estilos del Registro (siguen la misma paleta que login/navbar/footer) ===== */}
       <style>{`
         .light {
           --register-card-bg: var(--surface-1);

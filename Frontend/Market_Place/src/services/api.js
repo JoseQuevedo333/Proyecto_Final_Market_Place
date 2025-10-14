@@ -62,6 +62,52 @@ export async function eliminarProducto(id) {
 }
 
 /**
+ * 🔹 Registrar un nuevo usuario
+ */
+export async function registerUser({ name, email, password }) {
+  try {
+    const res = await fetch(`${BASE_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Error al registrar usuario");
+
+    return data; // { message, user, token }
+  } catch (err) {
+    console.error("registerUser:", err);
+    return { error: err.message };
+  }
+}
+
+/**
+ * 🔹 Login de usuario
+ */
+export async function loginUser({ email, password }) {
+  try {
+    const res = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Error al hacer login");
+
+    return data; // { message, user, token }
+  } catch (err) {
+    console.error("loginUser:", err);
+    return { error: err.message };
+  }
+}
+
+
+
+/**
  * 🔐 Verifica si el usuario está autenticado
  */
 export async function checkAuth(token) {
