@@ -3,16 +3,17 @@ import { Container, Row, Col, Button, Form, Alert, Card } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Layout/Navbar";
 import Footer from "../components/Layout/Footer";
-import { users } from "../assets/users";
+import { loginUser } from "../api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -21,15 +22,26 @@ function Login() {
       return;
     }
 
-    const user = users.find((u) => u.email === email && u.password === password);
-    if (!user) {
-      setError("Email o contraseña incorrecta.");
-      return;
-    }
+    setLoading(true);
+    try {
+      const result = await loginUser({ email, password });
 
-    // TODO: call login API
-    localStorage.setItem("loggedInUser", JSON.stringify(user));
-    navigate("/profile");
+      if (result.error) {
+        setError(result.error);
+        setLoading(false);
+        return;
+      }
+
+      // Store user and token in localStorage
+      localStorage.setItem("loggedInUser", JSON.stringify(result.user));
+      localStorage.setItem("token", result.token);
+
+      navigate("/profile");
+    } catch (err) {
+      console.error("Error al iniciar sesión:", err);
+      setError("Error inesperado. Intenta de nuevo.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,8 +81,8 @@ function Login() {
                   </Form.Group>
 
                   <div className="d-grid">
-                    <Button type="submit" className="btn btn-login btn-lg">
-                      Iniciar Sesión
+                    <Button type="submit" className="btn btn-login btn-lg" disabled={loading}>
+                      {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
                     </Button>
                   </div>
                 </Form>
@@ -96,31 +108,29 @@ function Login() {
 
       {/* ===== Estilos del Login por tema (misma paleta que navbar/footer/carrusel) ===== */}
       <style>{`
-        /* Variables específicas de la página (derivan de tus temas) */
         .light {
           --login-card-bg: var(--surface-1);
           --login-card-border: var(--border);
-          --login-title: var(--carousel-title, #232608); /* negro en claro */
+          --login-title: var(--carousel-title, #232608);
           --login-text: var(--text);
           --login-link: var(--link);
           --login-link-muted: #6b7280;
-          --login-btn-bg: #232608;     /* igual que navbar/cart oscuro */
+          --login-btn-bg: #232608;
           --login-btn-text: #DAF222;
           --login-btn-hover: #898C23;
         }
         .dark {
           --login-card-bg: var(--surface-1);
           --login-card-border: var(--border);
-          --login-title: var(--carousel-title, #DAF222); /* amarillo en oscuro */
+          --login-title: var(--carousel-title, #DAF222);
           --login-text: var(--text);
           --login-link: var(--link);
           --login-link-muted: var(--muted);
-          --login-btn-bg: #DAF222;     /* inversión en oscuro */
+          --login-btn-bg: #DAF222;
           --login-btn-text: #232608;
           --login-btn-hover: #F2E635;
         }
 
-        /* Card */
         .login-card {
           background: var(--login-card-bg) !important;
           color: var(--login-text) !important;
@@ -133,7 +143,6 @@ function Login() {
           font-weight: 800;
         }
 
-        /* Botón principal */
         .btn-login {
           background-color: var(--login-btn-bg) !important;
           color: var(--login-btn-text) !important;
@@ -145,7 +154,6 @@ function Login() {
           color: var(--login-btn-text) !important;
         }
 
-        /* Links */
         .login-link {
           color: var(--login-link) !important;
           font-weight: 700;
