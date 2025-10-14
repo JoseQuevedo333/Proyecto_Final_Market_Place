@@ -66,7 +66,7 @@ export async function eliminarProducto(id) {
  */
 export async function registerUser({ name, email, password }) {
   try {
-    const res = await fetch(`${BASE_URL}/auth/register`, {
+    const res = await fetch(`${BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password }),
@@ -88,7 +88,7 @@ export async function registerUser({ name, email, password }) {
  */
 export async function loginUser({ email, password }) {
   try {
-    const res = await fetch(`${BASE_URL}/auth/login`, {
+    const res = await fetch(`${BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
