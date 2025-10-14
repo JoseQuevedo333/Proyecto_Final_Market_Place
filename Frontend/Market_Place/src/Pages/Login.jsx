@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Form, Alert, Card } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Layout/Navbar";
 import Footer from "../components/Layout/Footer";
-import { loginUser } from "../api";
+import { loginUser } from "../services/api";
 
 function Login() {
   const [email, setEmail] = useState("");
